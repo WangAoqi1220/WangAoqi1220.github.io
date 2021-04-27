@@ -119,6 +119,14 @@
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
   </nav>
 </div>
 
@@ -179,7 +187,16 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-04-27 18:16:56 / Modified: 18:28:05" itemprop="dateCreated datePublished" datetime="2021-04-27T18:16:56+08:00">2021-04-27</time>
+      <time title="Created: 2021-04-27 18:16:56 / Modified: 18:44:03" itemprop="dateCreated datePublished" datetime="2021-04-27T18:16:56+08:00">2021-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">图形学</span></a>
+        </span>
     </span>
 
   
@@ -192,432 +209,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="坐标变换-MVP"><a href="#坐标变换-MVP" class="headerlink" title="坐标变换 - MVP"></a>坐标变换 - MVP</h1><h2 id="Model-Transform：模型变换"><a href="#Model-Transform：模型变换" class="headerlink" title="Model Transform：模型变换"></a><strong>Model Transform：模型变换</strong></h2><p>放置模型物体位置</p>
-<h2 id="View-Transform：视图变换"><a href="#View-Transform：视图变换" class="headerlink" title="View Transform：视图变换"></a><strong>View Transform：视图变换</strong></h2><p>放置相机位置以及朝向，同时定义相机的向上方向，一般放置在原点，向-z方向看，向上方向是y。</p>
-<p>移动相机时，我们需要先平移再旋转，因为将不规则位置旋转规则化位置比较困难，考虑从规则化的位置旋转当前相机位置，得到我们所需要的旋转矩阵的逆矩阵，又因为旋转矩阵的正交性，所以我们所求的矩阵即为逆矩阵的转置</p>
-<h2 id="Projection：投影"><a href="#Projection：投影" class="headerlink" title="Projection：投影"></a><strong>Projection：投影</strong></h2><p>即将3D中的物体投影到2D屏幕上，根据是否体现近大远小又分为</p>
-<h3 id="Orthographic-projection（正交投影）"><a href="#Orthographic-projection（正交投影）" class="headerlink" title="Orthographic projection（正交投影）"></a><strong>Orthographic projection（正交投影）</strong></h3><p>放置好相机后，将z轴忽略，同时再将图象映射到[-1,1]^3的规范，正则（canonical）正方形里，具体的做法是将其中心移到原点处，再进行放缩</p>
-<h3 id="Perspeerective-projection（透视投影）"><a href="#Perspeerective-projection（透视投影）" class="headerlink" title="Perspeerective projection（透视投影）"></a><strong>Perspeerective projection（透视投影）</strong></h3><p>将远平面上的点挤压成近平面的大小，再运用正交投影，所以透视投影的问题即转化为将远平面上的点如何挤压成近平面大小</p>
-<p><img src="https://uploader.shimo.im/f/oMafOLvyBdUDsiIi.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/jjwocyhWgywV0EtO.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/4wH020sGRP6i8osB.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/daec19CQCphRr8Co.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/AReGFPbwRaH8vMZ9.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/Oyl8qqy54qpexOcC.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/ciMzwMtitkFrB7mp.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/AQBJ1GYKFuWUjHON.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/pDDBxRRNQba7fzj5.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/OEGwqVd3bPqodo6g.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/df704Ya3OOY7zUKt.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>定义一个视锥只需要定义长宽比和可视角度</p>
-<p><img src="https://uploader.shimo.im/f/5hZKsLLifcQHqUjE.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h1 id="Rasterization（光栅化）"><a href="#Rasterization（光栅化）" class="headerlink" title="Rasterization（光栅化）"></a><strong>Rasterization（光栅化）</strong></h1><p>光栅化即是将物体呈现在屏幕上，我们将屏幕看成是像素的数组，且将每一个像素默认它只有一种颜色，由RGB来定义</p>
-<h2 id="Viewport-transform：视口变换"><a href="#Viewport-transform：视口变换" class="headerlink" title="Viewport transform：视口变换"></a><strong>Viewport transform：视口变换</strong></h2><p>我们将MVP变换之后的[-1,1]^3正方体的x，y拉伸为屏幕大小，忽略z轴，再将其一角移动到原点，使整个屏幕显示在坐标轴第一象限</p>
-<p>成像设备：</p>
-<p>早期：示波器 采用Raster Scan（隔行扫描）方式，隔行显示图象，由于人眼的视觉滞留原因，呈现的仍为完整画面，而工作量减半了，当前还在一些视频压缩中使用，但是会造成画面撕裂。</p>
-<p>LCD（Liquid Crystal Display）光通过光栅之后发生扭曲，振动方向与光栅一致</p>
-<p>LED（Light Emitting diode），Electrophoretic Display（例如kindle，刷新率低）</p>
-<h2 id="Sampling：采样"><a href="#Sampling：采样" class="headerlink" title="Sampling：采样"></a><strong>Sampling：采样</strong></h2><p>将一个函数离散化的过程</p>
-<p>判断每一个像素的中心是否在三角形内，方法即是使用沿着三角形的三条边，计算三次叉乘，来判断像素中心是否在三角形内，若在边界上则自己处理，不硬性规定</p>
-<p>我们只需要对轴向包围盒（AABB）内的像素点进行判断</p>
-<p><strong>Sampling Artifacts</strong></p>
-<p>走样（Aliasing）现象</p>
-<p>锯齿（Jaggies）- 空间中的采样</p>
-<p>摩尔纹（Moire）- 图片欠采样</p>
-<p>车轮效应（Wagon wheel effect） - 时间中的采样</p>
-<p>本质都是因为信号变换太快，导致采样频率跟不上</p>
-<p>同样一种采样频率，采样不同的函数，无法区分，导致走样</p>
-<h2 id="Antialiasing：反走样"><a href="#Antialiasing：反走样" class="headerlink" title="Antialiasing：反走样"></a><strong>Antialiasing：反走样</strong></h2><p>Filtering（滤波）：将信号某一区间的频率过滤掉</p>
-<p>傅里叶变换能将一张图片从时域变换到频域，频域的中心为低频，边缘为高频，一般图片低频信号要远多于高频信号。我们可以在频域图中看到明显的十字，这是因为我们一般处理信号时将其视为周期性重复的信号，而图片一般情况下无重复，因为我们认为图片的左边界往外连接着右边界，即图片也是重复的，有无限多个，而左右边界一般差别较大，会有较大的信号变化。</p>
-<p>高频信息表示图像中出现较强的变化，即呈现图象中的轮廓边缘</p>
-<p>低频信息表示图像中不明显的边界特正，即图象的模糊显示</p>
-<p>Convolution（卷积）：图形学中的卷积我们简化为运用不同的权重计算相邻信号的加权平均</p>
-<p><img src="https://uploader.shimo.im/f/lrcGWZiGTSgdmN1p.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>Convolution Theorem（卷积定理）：时域上两个图象的卷积等于频域上其两者的乘积</p>
-<p>Box Filter（低通滤波器），当卷积盒的大小越大时，在频域上频率越低，即过滤后的图象越模糊</p>
-<p><img src="https://uploader.shimo.im/f/xhOXGKmHAq6sZbrn.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"><img src="https://uploader.shimo.im/f/XvttTluUyUUTy4rj.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>从频率的角度来说，采样就是在不断重复频域上的内容</p>
-<p><img src="https://uploader.shimo.im/f/8wcBcv9RKjiS67rK.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>所以走样发生的原因就是，采样的频率不够快，导致原始信号和复制的信号发生了混叠</p>
-<p><img src="https://uploader.shimo.im/f/fFtrwvpd5bm5fwsg.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><strong>①增加采样率</strong></p>
-<p><strong>②先模糊再采样</strong></p>
-<p>对应在频率上来说，即用低通滤波器去除原信号的高频信号，使频谱图覆盖的面积减小，从而避免混叠</p>
-<p><img src="https://uploader.shimo.im/f/Cz0p24EH4Mxq34lC.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>一般采用1-pixel-width box filter，即每一个像素单元求其平均，从而达到模糊的效果</p>
-<p><strong>像素求平均的方法</strong></p>
-<p>ⅠMSAA(MultiSampling Anti-Aliasing)：将一个像素视作划分成许多小的块，每一个小的块来判断是否在三角形内，再将这些小的块平均起来，即得到对于该像素区域的平均近似，注意并未提高分辨率，花销是计算了更多的采样点</p>
-<p><img src="https://uploader.shimo.im/f/xsLtrbjIExTMK8jr.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"><img src="https://uploader.shimo.im/f/BFswYGQiqQHIvT62.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>ⅡFXAA（Fast Approximate AA）：先得到一个有锯齿的图象，通过图像匹配找到有锯齿的边界，再更换为无锯齿的边界</p>
-<p>ⅢTAA（Temporal AA）：复用上一帧的每个像素的值，即将MSAA的样本分布在时间上，并且当前这一帧没有引入任何新的计算量</p>
-<h2 id="Z-Buffer（深度缓存）"><a href="#Z-Buffer（深度缓存）" class="headerlink" title="Z-Buffer（深度缓存）"></a><strong>Z-Buffer（深度缓存）</strong></h2><h3 id="Painter’s-Algorithm-油画算法"><a href="#Painter’s-Algorithm-油画算法" class="headerlink" title="Painter’s Algorithm 油画算法"></a><strong>Painter’s Algorithm 油画算法</strong></h3><p>先将最远处的物体光栅化，然后由远到近依次光栅化</p>
-<p>问题：当在深度上存在互相遮挡，无法确定层次<img src="https://uploader.shimo.im/f/589FZMzeH0eu5ZNC.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Z-Buffer"><a href="#Z-Buffer" class="headerlink" title="Z-Buffer"></a><strong>Z-Buffer</strong></h3><p>为了方便理解，此处的深度我们默认为物体到摄像机的距离，即深度越小离摄像机越近</p>
-<p>同时生成两张图：frame buffer（最终的结果图象）和depth buffer（深度图）<img src="https://uploader.shimo.im/f/QZ0WBRgfnFr5vCr8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>初始时，初始化深度图，所有的深度都是无限远的，之后将任意三角形覆盖到任意像素上，计算该像素点的深度，若该点的深度小于深度缓存中该点的深度，则将深度缓存中该点的深度更新为较小的值，该算法的时间复杂度为O（n）（n个三角形，每个三角形覆盖常数个像素），该算法的正确性与遍历三角形的顺序没有关系</p>
-<p><img src="https://uploader.shimo.im/f/idMEiyu7sgtbaOt8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Shading（着色）"><a href="#Shading（着色）" class="headerlink" title="Shading（着色）"></a><strong>Shading（着色）</strong></h2><p>着色会引入明暗和颜色的不同，对不同的物体应用不同的材质，着色具有局部性，只考虑该物体，不考虑其他任何物体的存在，所以不生成阴影</p>
-<h3 id="Blinn-Phong-Reflectance-Model（布林-冯反射模型）"><a href="#Blinn-Phong-Reflectance-Model（布林-冯反射模型）" class="headerlink" title="Blinn-Phong Reflectance Model（布林-冯反射模型）"></a><strong>Blinn-Phong Reflectance Model（布林-冯反射模型）</strong></h3><p><img src="https://uploader.shimo.im/f/ssWzxbLjPvreMLiM.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Diffuse-Reflection（漫反射）"><a href="#Diffuse-Reflection（漫反射）" class="headerlink" title="Diffuse Reflection（漫反射）"></a><strong>Diffuse Reflection（漫反射）</strong></h4><p>Lambert’s cosine law（兰伯特余弦定理）max(0,<strong>n</strong>·<strong>l</strong>),单位面积接收到的光强为直射光强乘以夹角余弦值，而夹角余弦值为平面法向量与入射向量的点乘，当两者夹角大于90°，即从物体背面照射时，对正面不产生影响，故取0</p>
-<p><img src="https://uploader.shimo.im/f/ObmxXxS9MQxQ4McK.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>我们假设光线能量的传播没有损失，假设初始的能量强度为I，又随着不断传播，光能所在的球体半径不断增大，而球体表面积为4Πr^2，即一个距离光源距离为r的点，它到达的光强为I/r^2</p>
-<p><img src="https://uploader.shimo.im/f/BKNMo3nEeNWujdva.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>所以漫反射最终的光照强度为：</p>
-<p>Ld = Kd*(I/r^2)*max(0,<strong>n</strong>·<strong>l</strong>)（Kd为漫反射系数）</p>
-<p><img src="https://uploader.shimo.im/f/iIe96X3FhkgC8QPZ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Specular-Term（高光反射）"><a href="#Specular-Term（高光反射）" class="headerlink" title="Specular Term（高光反射）"></a><strong>Specular Term（高光反射）</strong></h4><p>高光反射出现的原因是因为观测方向和镜面反射反向足够接近</p>
-<p><img src="https://uploader.shimo.im/f/TauLMij1ldwgimID.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>在Blinn-Phong模型中，即法线与半程向量足够接近，就可观测到镜面反射，而半程向量即将入射向量与观测向量相加后归一化</p>
-<p>则Ls = Ks*(I/r^2)<em>max(0.cosα)^p = Ks</em>(I/r^2)*max(0,<strong>n</strong>·<strong>h</strong>)^p,其中Ks为高光反射系数</p>
-<p><img src="https://uploader.shimo.im/f/66deJrahBCfQhVPC.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>而其中的余弦值部分由于容忍度太高，导致角度较大时，仍处于一个高光的范围，所以需要加上一个指数p来限制高光的范围，一般p取100-200左右</p>
-<p><img src="https://uploader.shimo.im/f/rpwlG32xsUOUer0X.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Ambient-Term（环境光照）"><a href="#Ambient-Term（环境光照）" class="headerlink" title="Ambient Term（环境光照）"></a><strong>Ambient Term（环境光照）</strong></h4><p>因为环境光的生成非常的复杂，所以我们假设场景中的任何一个点受到环境光的强度都是相同的，为Ia，而Ka为环境光系数，因为每一个点的环境光都一致，所以环境光实际上为一常数，其作用是保证场景中没有点完全是黑的</p>
-<p><img src="https://uploader.shimo.im/f/MWL9Pwk8ZqS3Z4kF.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>最后，我们三种光照相加在一起，即为完整的Blinn-Phong反射模型</p>
-<p>L = La+Ld+Ls = KaIa + Kd*(I/r^2)<em>max(0,<strong>n</strong>·<strong>l</strong>) + Ks</em>(I/r^2)*max(0,<strong>n</strong>·<strong>l</strong>)^p</p>
-<p><img src="https://uploader.shimo.im/f/Pd8ZJTUtbX5UiKNN.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Shading-Frequencies（着色频率）"><a href="#Shading-Frequencies（着色频率）" class="headerlink" title="Shading Frequencies（着色频率）"></a><strong>Shading Frequencies（着色频率）</strong></h3><h4 id="Flat-Shading（平面着色）"><a href="#Flat-Shading（平面着色）" class="headerlink" title="Flat Shading（平面着色）"></a><strong>Flat Shading（平面着色）</strong></h4><p>以每一个三角形平面为单位，计算每一个平面的法线，然后计算出着色结果</p>
-<p><img src="https://uploader.shimo.im/f/dORBqen129mHHf5b.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Gouraud-Shading（高氏着色）"><a href="#Gouraud-Shading（高氏着色）" class="headerlink" title="Gouraud Shading（高氏着色）"></a><strong>Gouraud Shading（高氏着色）</strong></h4><p>以每个顶点为单位，计算出每一个顶点的法线，然后进行顶点着色，中间运用插值计算</p>
-<p><img src="https://uploader.shimo.im/f/6P6gaAhzQl6zX37A.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Phong-Shading（冯氏着色）"><a href="#Phong-Shading（冯氏着色）" class="headerlink" title="Phong Shading（冯氏着色）"></a><strong>Phong Shading（冯氏着色）</strong></h4><p>以每个像素为单位，计算出每一个像素的法线，然后进行像素着色<img src="https://uploader.shimo.im/f/eZpmG5TBy4Px5UBB.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/7ib294NVlfUEdXL2.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="顶点的法线计算"><a href="#顶点的法线计算" class="headerlink" title="顶点的法线计算"></a><strong>顶点的法线计算</strong></h3><p>当物体为球体时，顶点法线即为球心与其连线，当物体为不规则物体时，则顶点法线为其相邻四个面的法线的平均，可以通过根据面的面积来求加权平均，以获得更好的法线</p>
-<p><img src="https://uploader.shimo.im/f/h5R1iQjZoNLY6L23.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="实时渲染管线"><a href="#实时渲染管线" class="headerlink" title="实时渲染管线"></a><strong>实时渲染管线</strong></h3><p>我们的输入是一端三维空间中的点，通过MVP投影，投影到2D屏幕中，之后这些点会形成三角形，之后通过光栅化来将三角形离散化为许多像素，之后进行着色，显示</p>
-<p><img src="https://uploader.shimo.im/f/L5HjscJwzdOHwGXn.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/fdNQy5TtoXcZK7R8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/N6HcHAHjtnk3Iv8M.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/1Aa23z42B8dln1mo.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/GiJshtYkO0LfBQga.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>可以看到着色同时可以发生在顶点操作和像素操作上，这取决于着色频率，而Shader则是控制顶点和像素如何着色的可编程部分，在Shader中你只需要管其中的一个顶点或者像素如何着色，之后所有的顶点或者像素都会同样操作，VertexShader（顶点着色器），PixelShader（像素着色器）</p>
-<h3 id="Texture-Mapping（纹理映射）"><a href="#Texture-Mapping（纹理映射）" class="headerlink" title="Texture Mapping（纹理映射）"></a><strong>Texture Mapping（纹理映射）</strong></h3><p>纹理映射的根本作用是定义物体不同点的基本属性</p>
-<p><img src="https://uploader.shimo.im/f/sWiVXapnRhF4qQtW.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>任何一个三维物体的表面都是二维的，纹理映射即将空间物体上的一个三角形射到纹理表面上，而纹理的坐标一般采用u-v来表示，两者都∈[0,1]，不同的位置可以使用相同的纹理</p>
-<p><strong>Barycentric Coordinates（重心坐标）</strong></p>
-<p><img src="https://uploader.shimo.im/f/OcLxED5QYeN4YuyX.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>若该点在三角形内，还需满足α，β，γ都非负</p>
-<p><img src="https://uploader.shimo.im/f/ZE7XuwlWEPT0U1bs.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/cSJujWQbQiQS5Jxa.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/77jbSSkiqkTh8FtQ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/ICqkwbBb9VkWdVb2.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>在三维中的属性，要在三维空间中做插值，再投影到二维空间去</p>
-<p>根据插值获得三角形上每一点的坐标（u,v），去纹理上查询该坐标的值，该值即为漫反射的系数Kd</p>
-<p><strong>Texture Magnification</strong></p>
-<p>①当一个高分辨率的物体，贴上一个低分辨率的纹理时，对于墙上的任意一个点，我们都可以找到纹理上对应的位置，即texel（纹理元素），但是该位置对应的值不是一个整数，所以需要采用新的插值算法</p>
-<h4 id="Bilinear-interpolation（双线性插值）"><a href="#Bilinear-interpolation（双线性插值）" class="headerlink" title="Bilinear interpolation（双线性插值）"></a><strong>Bilinear interpolation（双线性插值）</strong></h4><p>取对应位置相邻的4个texel</p>
-<p><img src="https://uploader.shimo.im/f/DT3jodze2b7SakAb.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Bicubic-interpolation"><a href="#Bicubic-interpolation" class="headerlink" title="Bicubic interpolation"></a><strong>Bicubic interpolation</strong></h4><p>取对应位置相邻的16个texel</p>
-<p>②当一个低分辨率的物体，贴上高分辨率的纹理时，会产生严重的锯齿，发生走样</p>
-<p><img src="https://uploader.shimo.im/f/QXjs7cXuGKozTy5X.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/pq0Ru8sog8Ml8Pbg.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>近处的像素覆盖的纹理区域较小，远处的像素覆盖的纹理区域较大，我们用大片面积的平均值来表示该像素的纹理显然会出现问题，一种方法是采用SuperSampling的方法，可以解决问题，但是会造成额外的大量性能消耗</p>
-<p>我们可以换一个思路，不采取采样的方法，利用Mipmap来迅速求一个区域内的平均值</p>
-<h4 id="Mipmap"><a href="#Mipmap" class="headerlink" title="Mipmap"></a><strong>Mipmap</strong></h4><p>可以且仅可以做近似地，正方形的范围查询</p>
-<p>在渲染之前，先生成对应的mipmap，共有log2(n)个（分辨率为n*n），共引入了额外的1/3的存储量</p>
-<p><img src="https://uploader.shimo.im/f/EZTYwqFgj0xgIh1B.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/2W6HQjXFyMlLYKpL.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>将三角形中像素点对应找到纹理上的位置，同时找到该点相邻上方和右方的点的对应位置，从而得到一个纹理坐标上的三个点，计算两条边长，取最长的一条边，以第一个像素点为中心，最长的边长度为边长，将该像素点移动导致纹理坐标的改变近似到这个正方形区域内，我们就可以在第log2（L）层mipmap上去进行双线性插值查询其近似值。当我们查询的位置并不是整数层，则可以在相邻的两层再次进行一次插值，即进行一次三线性插值</p>
-<p><img src="https://uploader.shimo.im/f/ZrBeNJEMP4jqLToL.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但是mipmap近似一个非正方形的区域平均值，会出现overblur（过度模糊）</p>
-<p><img src="https://uploader.shimo.im/f/gVuTp4ILpVfKWCCl.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>这是我们可以采用Anisotropic Filtering（过滤）</p>
-<h4 id="Anisotropic-Filtering（各向异性过滤）"><a href="#Anisotropic-Filtering（各向异性过滤）" class="headerlink" title="Anisotropic Filtering（各向异性过滤）"></a><strong>Anisotropic Filtering（各向异性过滤）</strong></h4><p>分为竖直和水平两个方向进行压缩，开销变为原本的三倍</p>
-<p><img src="https://uploader.shimo.im/f/7TqVJJQ2Y2tn5kZK.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>因为每一个像素对应到纹理坐标上，不一定是一个标准的形状，各向异性过滤可以帮助去近似查询一个矩形区域平均值</p>
-<p><img src="https://uploader.shimo.im/f/xlSnKDv3IOTG88T9.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>EWA filtering用椭圆来近似估计，但是需要多次计算</p>
-<p><img src="https://uploader.shimo.im/f/zWXb4PRdYv1QSH0Z.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Environment-Map（环境光照）"><a href="#Environment-Map（环境光照）" class="headerlink" title="Environment Map（环境光照）"></a><strong>Environment Map（环境光照）</strong></h4><p>纹理可以用来表示环境光，来投影到物体上作为环境光，效果要好于点光源</p>
-<p><img src="https://uploader.shimo.im/f/8Y2buAgLw2U8mLgK.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>我们都假设环境光来源于无穷远处，因此我们只需记录它的方向信息，没有实际的深度意义，为了记录不同方向上的光线信息，可以采用不同的方式来保存环境光照</p>
-<p><strong>Spherical Environment Map（球面环境光照）</strong></p>
-<p><img src="https://uploader.shimo.im/f/bO6py6apz6qDeWnN.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>我们可以将环境光保存在一个球体上，并且把它展开，但是它并不是一种均匀描述，会出现扭曲的现象</p>
-<p><strong>Cube Map</strong></p>
-<p><img src="https://uploader.shimo.im/f/6QmfYBNFJv8wAkPw.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>将光照投影到正方体的六个表面，因为它六个面都是均匀的，很少发生扭曲，但是因为有六个面，我们需要先计算出光线在哪个面上</p>
-<h4 id="Bump-Maping（凹凸贴图）"><a href="#Bump-Maping（凹凸贴图）" class="headerlink" title="Bump Maping（凹凸贴图）"></a><strong>Bump Maping（凹凸贴图）</strong></h4><p>对于凹凸不平的物体，我们可以采用凹凸贴图来进行着色，而不需要在几何形体上改变物体</p>
-<p><img src="https://uploader.shimo.im/f/9SOmQeAzLWxvTObz.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Displacement-mapping（位移贴图）"><a href="#Displacement-mapping（位移贴图）" class="headerlink" title="Displacement mapping（位移贴图）"></a><strong>Displacement mapping（位移贴图）</strong></h4><p>跟凹凸贴图类似，但是在实际上改变了三角形顶点的位置，但是它需要三角形的模型比较细致，才能够捕捉纹理的变化，不然同样会出现走样，在DirectX中，我们先采用较为粗糙的三角形模型，在进行位移贴图计算时，如果发现三角形不够细致，再将三角形模型拆分成若干个小的三角形，细化模型</p>
-<p>纹理还有很多其他的作用，比如制作一个3D纹理，从而可以看到物体内部的样子。再比如我们可以先进行环境光遮蔽等一系列原本在渲染时计算的东西，将其修改在纹理上，从而减小渲染时的性能消耗</p>
-<h1 id="Geometry（几何）"><a href="#Geometry（几何）" class="headerlink" title="Geometry（几何）"></a><strong>Geometry（几何）</strong></h1><h2 id="1-隐式几何"><a href="#1-隐式几何" class="headerlink" title="1.隐式几何"></a><strong>1.隐式几何</strong></h2><h3 id="CSG-实体几何构造"><a href="#CSG-实体几何构造" class="headerlink" title="CSG(实体几何构造)"></a><strong>CSG(实体几何构造)</strong></h3><p>用已知常用的几何图形，进行并交补等运算，得到新的几何图形</p>
-<p><img src="https://uploader.shimo.im/f/cjQZxanixHQq6rtl.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="SDF（有号距离函数）"><a href="#SDF（有号距离函数）" class="headerlink" title="SDF（有号距离函数）"></a><strong>SDF（有号距离函数）</strong></h3><p>我们计算空间中的每一个点距离几何形体的最近距离，并且得到一个对应的距离函数</p>
-<p><img src="https://uploader.shimo.im/f/9XKzndW5CMItTEKc.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="LSM（水平集）"><a href="#LSM（水平集）" class="headerlink" title="LSM（水平集）"></a><strong>LSM（水平集）</strong></h3><p>将SDF中等距离的所有点连接在一起，即形成了水平集，其中距离为0的所有点的集合即为该几何物体的几何形体</p>
-<p><img src="https://uploader.shimo.im/f/HZlB8wxP25EcsxJs.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Fractals（分形）"><a href="#Fractals（分形）" class="headerlink" title="Fractals（分形）"></a><strong>Fractals（分形）</strong></h3><p>与自身形体相似的物体不断重复</p>
-<p><img src="https://uploader.shimo.im/f/2ka9KQWn2ik489Gq.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="2-显示几何"><a href="#2-显示几何" class="headerlink" title="2.显示几何"></a><strong>2.显示几何</strong></h2><h3 id="Point-Cloud（点云）"><a href="#Point-Cloud（点云）" class="headerlink" title="Point Cloud（点云）"></a><strong>Point Cloud（点云）</strong></h3><p>通过大量的点堆叠成相应的几何模型</p>
-<p><img src="https://uploader.shimo.im/f/xGGD5KRbPXNuRolL.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Polygon-Mesh（多边形面）"><a href="#Polygon-Mesh（多边形面）" class="headerlink" title="Polygon Mesh（多边形面）"></a><strong>Polygon Mesh（多边形面）</strong></h3><p>用三角形或多边形面组成几何物体</p>
-<p><img src="https://uploader.shimo.im/f/mk713G6Yonjb0x37.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Bezier-curves-贝塞尔曲线"><a href="#Bezier-curves-贝塞尔曲线" class="headerlink" title="Bezier curves(贝塞尔曲线)"></a><strong>Bezier curves(贝塞尔曲线)</strong></h3><p>贝塞尔曲线的第一个点为曲线起始点，前两个点决定了曲线起始点位置的切线方向，最后一个点为曲线的结束点，后两个点决定了曲线结束位置的切线方向</p>
-<p><img src="https://uploader.shimo.im/f/hA1x88KUcTcFauqW.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>在b0b1，b1b2上各取一点，分别为b’和b’’，在b’b’’上取一点b’’’</p>
-<p>其中b0b’ ：b’b1 = b1b’’ : b’’b2 = b’b’’’ : b’’’b’’</p>
-<p>让b’和b’’在相应线段上移动，取得的b’’’的点集即为所求曲线</p>
-<p><img src="https://uploader.shimo.im/f/9u0x5uxDBci54YMM.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>四个点同理</p>
-<p><img src="https://uploader.shimo.im/f/H4hAM6hLtrNx9Lb4.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/u01AOXqzZThjssyJ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>贝塞尔曲线不会超出给点控制点所形成的凸包的范围</p>
-<p><img src="https://uploader.shimo.im/f/fETd5hkhfYjrREil.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/ZZ21djI3vd4CAUdk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>C0连续，两段贝塞尔曲线连接在一起即为C0连续</p>
-<p><img src="https://uploader.shimo.im/f/65172Vu9hInpNcRw.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>C1连续，两段贝塞尔曲线的连接处的三个控制点在同一条直线上，且长度相等</p>
-<p><img src="https://uploader.shimo.im/f/mk7ows32U4Ig3SmZ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Spline（样条曲线）"><a href="#Spline（样条曲线）" class="headerlink" title="Spline（样条曲线）"></a><strong>Spline（样条曲线）</strong></h3><p><img src="https://uploader.shimo.im/f/QgzQme7RvJ0IJwnv.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/00vgZnayxlxM937H.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>其具有局部性，修改其中任意一个控制点，只会修改部分曲线段</p>
-<h3 id="Bezier-Surface（贝塞尔曲面）"><a href="#Bezier-Surface（贝塞尔曲面）" class="headerlink" title="Bezier Surface（贝塞尔曲面）"></a><strong>Bezier Surface（贝塞尔曲面）</strong></h3><p>画出多根贝塞尔曲线后，以贝塞尔去线上的点作为新的控制点，绘制新的贝塞尔曲线，其贝塞尔曲线的集合即为贝塞尔曲面</p>
-<p><img src="https://uploader.shimo.im/f/s321ni88g4u3JG3S.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Mesh-subdivision"><a href="#Mesh-subdivision" class="headerlink" title="Mesh subdivision"></a><strong>Mesh subdivision</strong></h2><p>将三角形网格拆分为更细致的三角形</p>
-<p><img src="https://uploader.shimo.im/f/UqD8tlH96ERUVMVz.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Loop-Subdivision"><a href="#Loop-Subdivision" class="headerlink" title="Loop Subdivision"></a><strong>Loop Subdivision</strong></h3><p>在Loop细分的过程中，可以连接一个三角形三条边上的三个中点，即从一个三角形细化为四个三角形</p>
-<p><img src="https://uploader.shimo.im/f/Wk2JqI2YGEiorcNz.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>之后我们需要调整增加三角形后的顶点调整，对于新增的顶点，将两个三角形重合的边的两个点设为A,B，另外两个点设为C,D，将新增的顶点设置为3/8<em>（A+B）+1/8</em>（C+D）</p>
-<p><img src="https://uploader.shimo.im/f/0RmA9qC59ye6bkOk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>对于旧的顶点，我们既要考虑其本身，也要考虑与其相连的旧顶点，其中，n为该顶点的度（即与该顶点相连的边的数量），u为与n相关的一个数，根据n和u，可以得到新顶点的位置调整</p>
-<p><img src="https://uploader.shimo.im/f/7Avf7wA4sXJH3Ef0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a><strong>Catmull-Clark Subdivision</strong></h3><p>找出网格中的非四边形面，并取非四边形面各边的中点与非四边形面中点进行连接，从而将非四边形面化为四边形面，而在进行一次Catmull-Clark细分之后，网格会增加非四边形数个奇异点（即度不为4的点），之后再进行细分，将不再增加奇异点</p>
-<p><img src="https://uploader.shimo.im/f/pfFS9g5u3atKh6U9.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>Catmull-Clark细分之后的顶点调整，分为三类，如下图所示</p>
-<p><img src="https://uploader.shimo.im/f/LBQhwFU4arutorCe.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>两种细分的差异：Loop细分只能用作三角形网格，而Catmull-Clark细分可以用作各种类型的网格</p>
-<p><img src="https://uploader.shimo.im/f/QUo7aNblMpaHywNQ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Mesh-simplification"><a href="#Mesh-simplification" class="headerlink" title="Mesh simplification"></a><strong>Mesh simplification</strong></h2><p>将网格简化，用更少的格子表示</p>
-<p><img src="https://uploader.shimo.im/f/G5NHp6sAAYZr2aHj.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>我们采用边坍缩来实现化简</p>
-<p><img src="https://uploader.shimo.im/f/KP7dptDAuA0mvpyd.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>如下图所示的五个点，若想将其简化为三个点，我们需要引入二次误差度量的概念，即新的替代点到之前的四条边的距离的平方和最小，我们在进行简化时，计算坍缩每一条边的二次误差度量，然后从小到大依次进行坍缩。要注意的是每坍缩一条边，要重新计算与其连接的边的二次误差度量， 所以需要一个数据结构来进行对数据的实时修改，并方便地获取最小值，因此采用优先队列，或堆来实现。因此整个算法就是坍缩二次误差度量最小的边，再对数据进行更新，再坍缩当前最小的边，再更新……即贪心算法</p>
-<p><img src="https://uploader.shimo.im/f/Qqu777D4kFhm571f.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Mesh-regularization"><a href="#Mesh-regularization" class="headerlink" title="Mesh regularization"></a><strong>Mesh regularization</strong></h2><p>将网格规则化，化成大小相似的多边形</p>
-<h2 id="Shadow-Mapping"><a href="#Shadow-Mapping" class="headerlink" title="Shadow Mapping"></a><strong>Shadow Mapping</strong></h2><p><strong>核心：不在阴影中的点必须同时被摄像机和光线同时看到</strong></p>
-<p>首先，从光源看向场景，并记录下所能看到的物体的深度</p>
-<p><img src="https://uploader.shimo.im/f/wfJDGohxBkpGR6IM.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"><img src="https://uploader.shimo.im/f/VYtjQRTtnBmu1gqI.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>然后我们通过摄像机来看场景，所能看到的每个点再投影回光源位置，查看光源处记录的该方向上的深度，并计算该点到光源的深度，比较两者是否相同，如果相同，则该点可见，若不相同，则该点处在阴影中</p>
-<p>阴影可以分为软阴影和硬阴影，当一个点完全看不到光源，则为硬阴影，若只能见到一部分光源，则为软阴影，点光源一定不会出现软阴影，因为软阴影一定是因为光源有一点的大小，导致存在半影的现象</p>
-<p><img src="https://uploader.shimo.im/f/WTDAk7R0uKeAzjS8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h1 id="Ray-Tracing（光线追踪）"><a href="#Ray-Tracing（光线追踪）" class="headerlink" title="Ray Tracing（光线追踪）"></a><strong>Ray Tracing（光线追踪）</strong></h1><p>光栅化的问题：</p>
-<ul>
-<li>难以实现一些全局的效果</li>
-<li>多用于实时渲染（光线追踪多用于离线渲染）</li>
-</ul>
-<p>图形学中光的三个约定：</p>
-<ul>
-<li>光沿直线传播</li>
-<li>光穿过物体时不发生碰撞</li>
-<li>光经过若干次的反射和折射，最终会进入人眼</li>
-</ul>
-<p>判断一个像素点的颜色：</p>
-<ul>
-<li>从摄像机出发，与该像素点进行连线，得到直线与场景中的物体所相交的第一个点（其后相交的点无需考虑）</li>
-<li>再由光源出发，看是否能照射到该点</li>
-<li>若能，则将该点的颜色经过计算，赋值给该像素点</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/3mMCUPwvYGyXf3o5.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Whitted-Style-ray-tracing"><a href="#Whitted-Style-ray-tracing" class="headerlink" title="Whitted-Style ray tracing"></a><strong>Whitted-Style ray tracing</strong></h2><p>光线在场景中会出现多次的折射与反射，在每一个反射或者折射的点处，都与光源连接一条线，若光源能够直接照射到该点，则该点的颜色则应该按照一定的权重（根据<strong>能量损失</strong>等来计算）来加权计算该像素点的颜色</p>
-<p><img src="https://uploader.shimo.im/f/LoqSVGr8LWgmNP8h.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>定义一条光线：</p>
-<ul>
-<li>起始点</li>
-<li>方向向量</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/lNcKZue0ZeR2ben8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="光线与球体-相交"><a href="#光线与球体-相交" class="headerlink" title="光线与球体****相交"></a><strong>光线与球体****相交</strong></h3><p>光线方程：</p>
-<p>$$r(t)=o+td$$</p>
-<p>球体方程：</p>
-<p>怎么求交点？交点满足两个方程，只要将其联立即可求解。</p>
-<p><img src="https://uploader.shimo.im/f/Vd8E3siVhiSwr6gR.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/4ffeSmSWnQKhR9EU.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="光线与其他不规则体-相交"><a href="#光线与其他不规则体-相交" class="headerlink" title="光线与其他不规则体****相交"></a><strong>光线与其他不规则体****相交</strong></h3><p><img src="https://uploader.shimo.im/f/gktNV0OpVv5bMVyD.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>计算光线与物体相交的用法：</p>
-<ul>
-<li>可以用来计算阴影，光照等等</li>
-<li>可以判断一个点是否在物体内部，原理如下：任意一封闭的曲线（？？？？？），在该平面内任意取一点，向任意方向发射一条光线，若与该曲线的交点为奇数个，则说明该点在封闭曲线内部，若为偶数个，则在封闭曲线外部</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/AZ3IbXt96IhA5oBq.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="光线与三角形-相交"><a href="#光线与三角形-相交" class="headerlink" title="光线与三角形****相交"></a><strong>光线与三角形****相交</strong></h3><p>判断一个光线是否一个三角形相交：</p>
-<ul>
-<li>其实只需要求出光线与该三角形所在平面的交点</li>
-<li>再判断这个点是否在三角形内即可，后一步之前已经说过解决办法，所以我们只需要求出光线与三角形所在平面的交点即可</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/RyOZFJa9aToCRDb1.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>平面的表示：</p>
-<ul>
-<li>点P</li>
-<li>法向量N</li>
-<li>平面上的点: p:(p-p’) . N = 0（平面上任意一个线段与法线垂直）</li>
-<li>可展开为(ax+by+cz+d=0)</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/WkZUF1moZXdDNs5v.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>将光线的方程与平面的方程联立（代入），求交点t（需要检查t的范围）</p>
-<p><img src="https://uploader.shimo.im/f/HejnpgkfG9D0DuDb.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Moller-Trumbore-Algorithm"><a href="#Moller-Trumbore-Algorithm" class="headerlink" title="Moller Trumbore Algorithm"></a><strong>Moller Trumbore Algorithm</strong></h4><p>将三角形所在面上的点用重心坐标来表示（用三角形三个顶点P0,P1,P2表示，系数和为1且大于0则点在三角形内部），与光线方程联立</p>
-<p>计算t，b1，b2，若1-b1-b2，b1，b2都大于0，则该光线与该三角形相交</p>
-<p><img src="https://uploader.shimo.im/f/toGxvanfbrxa7BNl.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Bounding-Volumes"><a href="#Bounding-Volumes" class="headerlink" title="Bounding Volumes"></a><strong>Bounding Volumes</strong></h2><p>用包围盒将物体包裹起来，若光线与包围盒都没有相交，则不可能与物体相交；相交时，再一一判断内部的物体是否与光线相交</p>
-<p>以此提升光追效率，加速结构</p>
-<p>包围盒如：球、长方体</p>
-<p><img src="https://uploader.shimo.im/f/XHuw7wDVt64pWeVZ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Axis-Aligned-Bounding-Box-AABB，轴对齐包围盒"><a href="#Axis-Aligned-Bounding-Box-AABB，轴对齐包围盒" class="headerlink" title="Axis-Aligned Bounding Box(AABB，轴对齐包围盒)"></a><strong>Axis-Aligned Bounding Box(AABB，轴对齐包围盒)</strong></h3><p>轴对齐包围盒即每个面都与坐标轴组成的面平行</p>
-<p><img src="https://uploader.shimo.im/f/QaqwypmewAuTBLUA.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>以2D举例，将长方体的包围盒分为两个对面（slab），分别计算光线进入两个对面的点(Tmin)和离开对面的点(Tmax)，之后取Tenter=max{tmin}，Texit=min{tmax}，作为光线与包围盒的交点。</p>
-<p>如果tenter &lt; texit，说明光线应该是在包围盒中停留了。</p>
-<p>同理可扩展到3D。</p>
-<p><img src="https://uploader.shimo.im/f/l46VbnAhEi7aPczx.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但是光线并不是一条直线，而是一条射线</p>
-<ul>
-<li>当Texit &lt; 0 时，包围盒处于光线的后方，不存在交点</li>
-<li>当Texit &gt;= 0 并且 Tenter &lt; 0 ，光源本来就在包围盒中，存在交点</li>
-<li>所以，当且仅当 Tenter &lt; Texit &amp;&amp; Texit &gt;= 0时，光线与包围盒相交</li>
-</ul>
-<h3 id="包围盒网格化"><a href="#包围盒网格化" class="headerlink" title="包围盒网格化"></a>包围盒网格化</h3><p>我们在创建一个包围盒后，将其网格化，找出其中物体覆盖的网格并将其标记</p>
-<p><img src="https://uploader.shimo.im/f/0BjBokSJHpQxdfwi.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>将光线经过的格子遍历，若格子是包围盒（的一部分），测试其中的物体与光线是否相交</p>
-<p><img src="https://uploader.shimo.im/f/jjz7NAXvQTGr87jo.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>为了保证效果和效率，格子的经验值满足下式</p>
-<p><img src="https://uploader.shimo.im/f/j81C9L1CzxuwdTNm.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><strong>三种空间划分的方法</strong></p>
-<h4 id="Oct-Tree"><a href="#Oct-Tree" class="headerlink" title="Oct-Tree"></a><strong>Oct-Tree</strong></h4><p>八叉树，将3D空间中的场景切三刀分为八份（例子中为2D平面），终止条件自己设置</p>
-<h4 id="KD-Tree"><a href="#KD-Tree" class="headerlink" title="KD-Tree"></a><strong>KD-Tree</strong></h4><p>类似于二叉树，每一次划分用一刀将场景分为两份</p>
-<h4 id="BSP-Tree"><a href="#BSP-Tree" class="headerlink" title="BSP-Tree"></a><strong>BSP-Tree</strong></h4><p>通KD-Tree，但是划分可以为斜线</p>
-<p><img src="https://uploader.shimo.im/f/40WMt3k7SUAJlJW6.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>当光线照射包围盒时，我们根据KD-Tree的划分，可以类似于二分查找的思想，对碰撞的物体进行查找，但是KD-Tree存在问题，即一个物体存在多个划分后的包围盒内</p>
-<p><img src="https://uploader.shimo.im/f/JtRydLVf82IVR3pk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h4 id="Bounding-Volume-Hierarchy-BVH"><a href="#Bounding-Volume-Hierarchy-BVH" class="headerlink" title="Bounding Volume Hierarchy(BVH)"></a><strong>Bounding Volume Hierarchy(BVH)</strong></h4><p>避免了一个几何结构出现在多个叶子节点里的问题，但是它并不是严格地将物体划分开</p>
-<p><img src="https://uploader.shimo.im/f/O3iHzOxWliRCvwB4.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>先找到包围盒，然后将场景中的物体划分为两部分，在分别计算两部分地包围盒，之后继续重复之前的操作，直到可以停止为止</p>
-<p><img src="https://uploader.shimo.im/f/2PMvpFkFy2Syz9rU.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>我们总是选择最长的轴进行划分，并且优先选取中间的物体</p>
-<p><img src="https://uploader.shimo.im/f/2J7KH3LsQ7TAJvE4.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/4XqPVxB24cAbsCtW.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Radiometry（辐射度量学）"><a href="#Radiometry（辐射度量学）" class="headerlink" title="Radiometry（辐射度量学）"></a><strong>Radiometry（辐射度量学）</strong></h2><h3 id="Radiant-flux"><a href="#Radiant-flux" class="headerlink" title="Radiant flux"></a><strong>Radiant flux</strong></h3><p><img src="https://uploader.shimo.im/f/sqU3BT1jtciGpxET.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Radiant-intensity"><a href="#Radiant-intensity" class="headerlink" title="Radiant intensity"></a><strong>Radiant intensity</strong></h3><p>radiant intensity 是（一个点光源发射出的）单位立体角（solid angle）上的能量</p>
-<p>单位为cd(candela)（7个国际单位制之一）</p>
-<p><img src="https://uploader.shimo.im/f/vepbZDVmSGzVw64b.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>角和立体角：</p>
-<p><img src="https://uploader.shimo.im/f/R9rYfMXRxiArfzzh.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>立体角：单位面积/半径平方</p>
-<p>微分立体角：</p>
-<p>$$dw = \frac{dA}{r^2} = sin \theta d \theta d \phi$$</p>
-<p>对于球面模型，intensity的计算：（不会衰减）</p>
-<p><img src="https://uploader.shimo.im/f/gSpOm05TwGxbmyI2.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Irradiance"><a href="#Irradiance" class="headerlink" title="Irradiance"></a><strong>Irradiance</strong></h3><p>是（垂直的）单位面积上的能量</p>
-<p><img src="https://uploader.shimo.im/f/gJdWdOMzP3qCZFhZ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>与光线垂直的表面的面积（与面法线和光线的夹角有关），会（随半径）衰减</p>
-<p><img src="https://uploader.shimo.im/f/YRSY7YflQ6GGr3BD.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Radiance"><a href="#Radiance" class="headerlink" title="Radiance"></a><strong>Radiance</strong></h3><p>radiance 是在单位立体角且在单位面积上的（发射的、反射的、传递的、吸收的）能量</p>
-<p><img src="https://uploader.shimo.im/f/qmCoVvRjk7hluHXC.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>radiance 与 irradiance 和 intensity 的关系：</p>
-<p>vs irradiance ：</p>
-<ul>
-<li>irradiance：dA 接收到的总能量</li>
-<li>Radiance：dA 从某方向 dw （立体角）上接收到的能量</li>
-</ul>
-<p><img src="https://uploader.shimo.im/f/kWJNFIdmxaNa26ob.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="BRDF"><a href="#BRDF" class="headerlink" title="BRDF"></a><strong>BRDF</strong></h3><p>Bidirectional Reflectance Distribution  Function 双向反射分布函数</p>
-<p>定义某个能量在每个方向上反射的能量如何分配</p>
-<p>输入入射角，出射角，入射能量，返回出射能量</p>
-<p>反射的理解：光线打到某个物体表面被吸收，从某个方向发射出去</p>
-<p>具体地，从某个方向 dwi 来的radiance 打到 dA，被表面吸收(irradiance)，从另一个方向 w 发射出去(radiance</p>
-<p><img src="https://uploader.shimo.im/f/IOdwrKuDUFm3m4U0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/68tH38sQeiIwLg7z.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/bnG3zPH5zvGuMEGk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片">、</p>
-<p>递归反射</p>
-<h2 id="Rendering-Equation"><a href="#Rendering-Equation" class="headerlink" title="Rendering Equation"></a><strong>Rendering Equation</strong></h2><p>半球</p>
-<p>所有限制在物体表面的光线传播满足下面的渲染方程</p>
-<p><img src="https://uploader.shimo.im/f/1cAM24PXc5653w5d.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><strong>Reflection Equation</strong></p>
-<p>包括面光源</p>
-<p><img src="https://uploader.shimo.im/f/JhAmav9otAPaaE43.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>包括反射的物体的光线</p>
-<p><img src="https://uploader.shimo.im/f/lqCeagAuYzE07E67.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Global-Illumination"><a href="#Global-Illumination" class="headerlink" title="Global Illumination"></a><strong>Global Illumination</strong></h2><p><img src="https://uploader.shimo.im/f/KKpDBqOgiFOJ93K9.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>最终所得到的L即为全局光照，其右侧的第n项，分别表示了经过n次反射的光照</p>
-<p><img src="https://uploader.shimo.im/f/yRhmGOyTEcuURRJ8.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Monte-Carlo-Integration"><a href="#Monte-Carlo-Integration" class="headerlink" title="Monte Carlo Integration"></a>Monte Carlo Integration</h2><h3 id="Probability-Distribution-Function（PDF）"><a href="#Probability-Distribution-Function（PDF）" class="headerlink" title="Probability Distribution Function（PDF）"></a><strong>Probability Distribution Function（PDF）</strong></h3><p><img src="https://uploader.shimo.im/f/jsvqO8pYDu6U4Z7c.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>在积分域内不断采样，得到对应点的函数值，将其看为一常数，则将该积分化为求一矩形面积，高度为该函数值，长度为b-a，将n个采样结果相加求平均，n越大，则结果越接近实际值</p>
-<p><img src="https://uploader.shimo.im/f/x7Q8JkO8VnQQlLY0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/BiUBHXTyRfMDweqp.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/1suUkxnblljAcN4p.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h2 id="Path-Tracing"><a href="#Path-Tracing" class="headerlink" title="Path Tracing"></a>Path Tracing</h2><h3 id="Direct-Light"><a href="#Direct-Light" class="headerlink" title="Direct Light"></a>Direct Light</h3><p><img src="https://uploader.shimo.im/f/y7myw61IchkOrKxe.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>运用Monte Carlo算法解决渲染方程</p>
-<p>一个着色点我们假设其不发光，则该点的radiance即为四面八方来的光与BRDF作用之后</p>
-<p>反射到观察方向上，任何一个ωi，反射到ωo，再对整个球面积分</p>
-<p><img src="https://uploader.shimo.im/f/KUnN4qmh8YUhYqF0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/wasfxfrNO6h6VsHS.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/C1IRCqFpvTQB898Z.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Global-Illumination-1"><a href="#Global-Illumination-1" class="headerlink" title="Global Illumination"></a>Global Illumination</h3><p><img src="https://uploader.shimo.im/f/gU0ZolAFMXRs3JzQ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>因为单个光源发射出N条光线，整个场景中的光线会成指数爆炸增长，只有当N为1时，不会爆炸，因此我们修改之前的想法，总是只有一条光线射出</p>
-<p><img src="https://uploader.shimo.im/f/bSKZVzlqQmruHlIn.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>同一个像素点，有多个paths经过，将每一个path得到的颜色求和平均，即为该像素点的颜色</p>
-<p><img src="https://uploader.shimo.im/f/3DOMuTDBVA2nghy6.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/Ib6PQOv1Vukfrh4k.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但此时仍然存在问题，因为代码中存在递归，但是当前的递归代码没有停止的出口</p>
-<h4 id="Russian-Roulette"><a href="#Russian-Roulette" class="headerlink" title="Russian Roulette"></a>Russian Roulette</h4><p><img src="https://uploader.shimo.im/f/sgase9BGOvcGjhS0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>当光线照射到物体时，事先设置好一个概率P，则有P的概率光线会反射出一条光线，即再次射出一条光线，最终返回的值为Lo/P，而另外1-P的概率不会发射反射光线，则最终获得的能量期望，仍为Lo，这样递归便会概率地结束了</p>
-<p><img src="https://uploader.shimo.im/f/cJVF1mbFLMIFIJOd.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但此时算法的效率仍然不高，因为均匀地采样时，绝大多数的光线都被浪费了，为了提高效率，我们可以修改成在光源上采样，避免光线的浪费</p>
-<p><img src="https://uploader.shimo.im/f/zCwUhmJqqnboNncy.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但是这样又出现了一个问题，Monte Carlo算法本身的积分是取样在球面上的</p>
-<p><img src="https://uploader.shimo.im/f/8iNAHKOsnybbcmOf.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>因此需要将渲染方程修改为dA的积分，而不是dω的积分</p>
-<p><img src="https://uploader.shimo.im/f/qYUUoQIACTMooxaJ.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>即可得如下图所示的式子</p>
-<p><img src="https://uploader.shimo.im/f/lvsyfUIEc0w4Qq2z.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/FMxh6qRFv3wiqr0y.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>在最后，在进行一次优化，由于在光源上采样，所以如果从光源上发出的光线在路径上碰到了其他的物体，则不需要再进行之后的计算</p>
-<p><img src="https://uploader.shimo.im/f/svgIIVacJvDCwvry.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>点光源不好进行路径追踪，可以将其做成一个小面积的面积光源</p>
-<p>仍需自己去了解的东西：</p>
-<p><img src="https://uploader.shimo.im/f/DmfRXKMTiwXgsYRc.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h1 id="The-Appearance-of-Natural-Materials（外观与材质）"><a href="#The-Appearance-of-Natural-Materials（外观与材质）" class="headerlink" title="The Appearance of Natural Materials（外观与材质）"></a>The Appearance of Natural Materials（外观与材质）</h1><h2 id="Materials"><a href="#Materials" class="headerlink" title="Materials"></a>Materials</h2><p>Material == BRDF</p>
-<h3 id="Diffuse-Lambertian-Material（漫反射材质）"><a href="#Diffuse-Lambertian-Material（漫反射材质）" class="headerlink" title="Diffuse/Lambertian Material（漫反射材质）"></a>Diffuse/Lambertian Material（漫反射材质）</h3><p><img src="https://uploader.shimo.im/f/yB7UFNdcN4PsBNk2.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Glossy-Material（光滑材质）"><a href="#Glossy-Material（光滑材质）" class="headerlink" title="Glossy Material（光滑材质）"></a>Glossy Material（光滑材质）</h3><h3 id="Ideal-Reflective-Refractive-Material-理想全反射材质"><a href="#Ideal-Reflective-Refractive-Material-理想全反射材质" class="headerlink" title="Ideal Reflective/Refractive Material(理想全反射材质)"></a>Ideal Reflective/Refractive Material(理想全反射材质)</h3><p>出射光方向+入射光方向 = 法线方向</p>
-<p><img src="https://uploader.shimo.im/f/PjRTQwJD5VLYVFXk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Specular-Refraction"><a href="#Specular-Refraction" class="headerlink" title="Specular Refraction"></a>Specular Refraction</h3><p><img src="https://uploader.shimo.im/f/UDDjAqnjYPKykLo0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>当ηi &gt; ηt且使得(ηi/ηt)^2*（1-cosθi^2）&gt; 1，则发生全反射</p>
-<p><img src="https://uploader.shimo.im/f/CVvyHHSRaVdIqzj0.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Fresnel-Reflection-Term（菲涅尔项）"><a href="#Fresnel-Reflection-Term（菲涅尔项）" class="headerlink" title="Fresnel Reflection/Term（菲涅尔项）"></a>Fresnel Reflection/Term（菲涅尔项）</h3><p>表示有多少能量被反射</p>
-<p>Dielectric（绝缘体）</p>
-<p><img src="https://uploader.shimo.im/f/WhwzA5ewTlm5MP1W.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>Conductor（导体）</p>
-<p><img src="https://uploader.shimo.im/f/0D3sc0yt8j2nv9Mg.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>菲涅尔项的计算方法</p>
-<p><img src="https://uploader.shimo.im/f/gEGNMRD0eA4rOMNj.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>但是计算过于复杂，我们将其近似</p>
-<p>Schlick’s approximation</p>
-<p><img src="https://uploader.shimo.im/f/RfrulVshiGbssj8j.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Microfacet-Material-微表面材质"><a href="#Microfacet-Material-微表面材质" class="headerlink" title="Microfacet Material(微表面材质)"></a>Microfacet Material(微表面材质)</h3><p>从远处看到的是材质，从近处看到的是几何形体</p>
-<p>在微表面材质中，我们将表面视作有大量的小镜子</p>
-<p><img src="https://uploader.shimo.im/f/Q6mLeuJyHuNWEviY.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>用其表面的法线分布来表示不同的材质</p>
-<p><img src="https://uploader.shimo.im/f/mAMHS1xSLe4Vwipk.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>F(i,h)：Fresnel term，表示被反射的能量总量</p>
-<p>G(i,i,h)：shadowing-masking term，为了修正入射角过大，导致出现相互遮挡的现象</p>
-<p>D(h)：distribution of normals，表示表面法线的分布</p>
-<p><img src="https://uploader.shimo.im/f/aueY83SXN8kr6uxh.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="Isotropic-Anisotropic-Materials-BRDFs-（各向同性-各向异性材质）"><a href="#Isotropic-Anisotropic-Materials-BRDFs-（各向同性-各向异性材质）" class="headerlink" title="Isotropic/Anisotropic Materials(BRDFs)（各向同性/各向异性材质）"></a>Isotropic/Anisotropic Materials(BRDFs)（各向同性/各向异性材质）</h3><p>当满足如下条件时，为各向异性材质</p>
-<p><img src="https://uploader.shimo.im/f/EAE0LNrFu0FDf3Xn.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="BRDF的属性"><a href="#BRDF的属性" class="headerlink" title="BRDF的属性"></a>BRDF的属性</h3><p>BRDF是非负的</p>
-<p><img src="https://uploader.shimo.im/f/HyUXcAsJZ2kWbJDB.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>BRDF为线性的，可以拆分开再相加</p>
-<p><img src="https://uploader.shimo.im/f/8kg97zaBl618geYn.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>交换入射方向和出射方向，得到的BRDF相同</p>
-<p><img src="https://uploader.shimo.im/f/UIQ4J7wuhMgcAjzE.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>BRDF不会使能量变化，能量守恒</p>
-<p><img src="https://uploader.shimo.im/f/C71ZaMzD8wXm6Ils.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p>各向同性材质可以看作是三维的</p>
-<p><img src="https://uploader.shimo.im/f/dY1z3im1mEAoczEt.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<h3 id="测量BRDF"><a href="#测量BRDF" class="headerlink" title="测量BRDF"></a>测量BRDF</h3><p>枚举所有的入射和出射角度，测量BRDF</p>
-<p><img src="https://uploader.shimo.im/f/ynD1BiNkIsDIlR6K.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-<p><img src="https://uploader.shimo.im/f/aBNu2pCY3LARjQWK.png!thumbnail?fileGuid=dPkpKbzeJwF4gQqO" alt="图片"></p>
-
+          <h1 id="GAME101"><a href="#GAME101" class="headerlink" title="GAME101"></a>GAME101</h1><p>在2021年初有幸学习了闫令琪老师的《GAMES101：现代计算机图形学入门》课程，其论坛链接如下</p>
+<p><a target="_blank" rel="noopener" href="http://games-cn.org/">http://games-cn.org/</a></p>
+<p>学习过程中与<a href="lyfzero.github.io">女朋友</a>记录了一些课程笔记，分享在此，希望能够跟有同样爱好的朋友一起学习进步</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/27/GAMES/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
