@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/v2-ca4b12014f60382a5bd256f1b54d2f8e_720w.jpg">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/v2-bda5510a97098812efbf98bc075bbb59_720w.jpg">
 <meta property="article:published_time" content="2021-05-10T08:10:37.000Z">
-<meta property="article:modified_time" content="2021-05-11T05:36:09.975Z">
+<meta property="article:modified_time" content="2021-05-11T05:45:54.217Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="图形学">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-11 13:36:09" itemprop="dateModified" datetime="2021-05-11T13:36:09+08:00">2021-05-11</time>
+        <time title="Modified: 2021-05-11 13:45:54" itemprop="dateModified" datetime="2021-05-11T13:45:54+08:00">2021-05-11</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -272,11 +272,11 @@
 <p>帧间抗锯齿技术的实现依赖于帧间相关性（frame-to-frame coherence）。我们看到的视频或者游戏画面，上一帧画面中绝大部分内容也会出现在下一帧画面中，通常是平滑过渡的，比较少出现突变。如图4所示，整个画面中除了黑色小球以外，整体画面并没有太大的变化，这就是所谓的帧间相关性。也正是因为受到帧间相关性地启发，才有了帧间抗锯齿技术。</p>
 <p>帧间抗锯齿技术的核心思想就是将运算量分摊至多帧，任意一帧只计算一个像素点，随着t帧的累积，就有t个采样像素，再混合结果，就相当于做了t个子像素的超采样。当然，每帧中像素需要做一定的抖动(Jitter)，不然不同帧相同位置的像素值就完全一样，也就没有了分摊多帧的意义。通过对像素分摊至多帧的超采样，来提高采样效率，达到缓解锯齿的目的。</p>
 <p><img src="v2-47e8f051f2a23d6237f6c716e45d0486_720w.jpg" alt="img"></p>
-<p>尽管通过分摊超采样的方法，将计算量分摊到了不同帧，但是保存多帧也是不切实际的。那就有了只混合相邻两帧的思路，本篇文章分别称之为当前帧和历史帧（History Frame）。若当前帧的像素值是<script type="math/tex">S_t(p)</script>，前t-1帧的历史帧像素是<script type="math/tex">f_{t-1}(\pi_{t-1}(p))</script>，将它们加权混合就得到分摊多帧超采样得到的结果：</p>
-<p><script type="math/tex">f_t(p)=(\alpha)S_t(p)+(1-\alpha)f_{t-1}(\pi_{t-1}(p))</script>(1)</p>
+<p>尽管通过分摊超采样的方法，将计算量分摊到了不同帧，但是保存多帧也是不切实际的。那就有了只混合相邻两帧的思路，本篇文章分别称之为当前帧和历史帧（History Frame）。若当前帧的像素值是S<em>t(p)，前t-1帧的历史帧像素是f</em>{t-1}(\pi_{t-1}(p))，将它们加权混合就得到分摊多帧超采样得到的结果：</p>
+<p>f<em>t(p)=(\alpha)S_t(p)+(1-\alpha)f</em>{t-1}(\pi_{t-1}(p))(1)</p>
 <p>称这种方法为指数平滑滤过(Exponential Smoothing Filter)，其中，α是一个加权值，称为指数平滑系数，可以是一个固定值，也可以是一个自适应变化的值。它有点类似于累积缓存器(Accumulation Buffer)的原理，不断累积结果。后面会解释，为什么这种指数平是合理的。</p>
-<p>在实际应用中，画面并不是完全静止的，镜头在运动、模型在动，例如当前帧模型上的一个像素点位于(100, 520)，它在历史帧对应的位置可能是(99,530)。那么，我们就需要计算当前帧像素点在历史帧所处的位置，这个过程称为重投影（Reprojection）。如果只有镜头在动，那通过镜头的变换矩阵就可以计算出历史帧的位置；但是如果模型本身也在动，就需要计算模型顶点在当前帧与历史帧的位置差值，这个差值称之为运动矢量（Motion Vector）,可以把场景内运动模型的运动矢量存储在一个缓存中，这个缓存就称为速度缓存（Velocity Buffer）。重投影是基于当前帧和历史帧的视图投影矩阵与速度缓存，推算出屏幕上当前帧像素点的位置p在历史帧对应位置<script type="math/tex">\pi_{t-1}(p)</script>的过程。</p>
-<p>至此，已经得到当前帧像素在历史帧中的位置，也就容易根据历史帧采样到历史帧像素值<script type="math/tex">f_{t-1}(\pi_{t-1}(p))</script>。但是，由于每帧渲染时有像素抖动、模型运动、渲染环境变化（例如光照条件）等，它们会导致渲染结果发生变化，此时得到的历史帧像素就可能不具参考性。如下图所示，当前帧位置p的像素，在历史帧对应位置的像素被遮挡住了，那么重投影得到的历史帧像素与当前帧像素无法对应。那么，就需要一个验证历史帧像素并修正的阶段，修正（Rectify）历史帧像素值，再将它代入等式1算出最终结果。</p>
+<p>在实际应用中，画面并不是完全静止的，镜头在运动、模型在动，例如当前帧模型上的一个像素点位于(100, 520)，它在历史帧对应的位置可能是(99,530)。那么，我们就需要计算当前帧像素点在历史帧所处的位置，这个过程称为重投影（Reprojection）。如果只有镜头在动，那通过镜头的变换矩阵就可以计算出历史帧的位置；但是如果模型本身也在动，就需要计算模型顶点在当前帧与历史帧的位置差值，这个差值称之为运动矢量（Motion Vector）,可以把场景内运动模型的运动矢量存储在一个缓存中，这个缓存就称为速度缓存（Velocity Buffer）。重投影是基于当前帧和历史帧的视图投影矩阵与速度缓存，推算出屏幕上当前帧像素点的位置p在历史帧对应位置\pi_{t-1}(p)的过程。</p>
+<p>至此，已经得到当前帧像素在历史帧中的位置，也就容易根据历史帧采样到历史帧像素值f<em>{t-1}(\pi</em>{t-1}(p))。但是，由于每帧渲染时有像素抖动、模型运动、渲染环境变化（例如光照条件）等，它们会导致渲染结果发生变化，此时得到的历史帧像素就可能不具参考性。如下图所示，当前帧位置p的像素，在历史帧对应位置的像素被遮挡住了，那么重投影得到的历史帧像素与当前帧像素无法对应。那么，就需要一个验证历史帧像素并修正的阶段，修正（Rectify）历史帧像素值，再将它代入等式1算出最终结果。</p>
 <p><img src="v2-ca4b12014f60382a5bd256f1b54d2f8e_720w.jpg" alt="img"></p>
 <p>重新复盘下帧间抗锯齿技术的流程，对镜头进行抖动，渲染场景至主缓存中；如果模型发生运动，需要将渲染运动模型的运动矢量存至速度缓存。在一个TAA的后处理历程中，通过重投影获取当前帧像素在历史帧中的位置，获取历史帧像素，验证并修正历史帧像素，将历史帧像素和当前帧像素根据等式1加权混合，输出结果。</p>
 <p><img src="v2-bda5510a97098812efbf98bc075bbb59_720w.jpg" alt="img"></p>
@@ -348,12 +348,6 @@
   
 
 
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{&quot;enable&quot;:true,&quot;tags&quot;:&quot;none&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3.1.2&#x2F;es5&#x2F;tex-mml-chtml.js&quot;}</script>
-<script src="/js/third-party/math/mathjax.js"></script>
 
 
 
