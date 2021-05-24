@@ -20,30 +20,31 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Muse&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;Searching...&quot;,&quot;empty&quot;:&quot;We didn&#39;t find any results for the search: ${query}&quot;,&quot;hits_time&quot;:&quot;${hits} results found in ${time} ms&quot;,&quot;hits&quot;:&quot;${hits} results found&quot;}}</script>
-<meta name="description" content="何为垃圾 .NET类型分为两大类，值类型和引用类型。前者分配在栈上，不需要GC回收，而后者分配在堆上，其内存释放和回收需要通过GC.一个引用类型对象所占用的内存需要被GC回收，需要先成为垃圾,只要判定此对象或者其包含的子对象没有任何引用是有效的，那么就认为它是垃圾。 内存的释放和回收需要伴随着程序的运行，因此系统为GC安排了独立的线程。那么GC的工作大致是，查询内存中对象是否成为垃圾，然后对垃圾进">
+<meta name="description" content="垃圾回收机制是C#中重要的内存管理机制，学习C#包括使用C#的Unity时，想要合理地控制内存，提升性能，就需要了解垃圾回收的具体机制，本文整理了网上许多博客的内容，汇集成一篇较为详尽的GC介绍">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Garbage_Collection">
-<meta property="og:url" content="http://example.com/2021/05/24/Garbage-Collection/index.html">
+<meta property="og:title" content="GC">
+<meta property="og:url" content="http://example.com/2021/05/24/GC/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="何为垃圾 .NET类型分为两大类，值类型和引用类型。前者分配在栈上，不需要GC回收，而后者分配在堆上，其内存释放和回收需要通过GC.一个引用类型对象所占用的内存需要被GC回收，需要先成为垃圾,只要判定此对象或者其包含的子对象没有任何引用是有效的，那么就认为它是垃圾。 内存的释放和回收需要伴随着程序的运行，因此系统为GC安排了独立的线程。那么GC的工作大致是，查询内存中对象是否成为垃圾，然后对垃圾进">
+<meta property="og:description" content="垃圾回收机制是C#中重要的内存管理机制，学习C#包括使用C#的Unity时，想要合理地控制内存，提升性能，就需要了解垃圾回收的具体机制，本文整理了网上许多博客的内容，汇集成一篇较为详尽的GC介绍">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2021/05/24/Garbage-Collection/image-20210524102933138.png">
-<meta property="og:image" content="http://example.com/2021/05/24/Garbage-Collection/image-20210524103003960.png">
-<meta property="article:published_time" content="2021-05-24T02:28:04.000Z">
-<meta property="article:modified_time" content="2021-05-24T02:30:08.138Z">
+<meta property="og:image" content="http://example.com/2021/05/24/GC/image-20210524102933138.png">
+<meta property="og:image" content="http://example.com/2021/05/24/GC/image-20210524103003960.png">
+<meta property="article:published_time" content="2021-05-24T02:48:57.000Z">
+<meta property="article:modified_time" content="2021-05-24T02:50:00.339Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Unity，性能优化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/05/24/Garbage-Collection/image-20210524102933138.png">
+<meta name="twitter:image" content="http://example.com/2021/05/24/GC/image-20210524102933138.png">
 
 
-<link rel="canonical" href="http://example.com/2021/05/24/Garbage-Collection/">
+<link rel="canonical" href="http://example.com/2021/05/24/GC/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;en&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;05&#x2F;24&#x2F;Garbage-Collection&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;24&#x2F;Garbage-Collection&#x2F;&quot;,&quot;title&quot;:&quot;Garbage_Collection&quot;}</script>
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;en&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;05&#x2F;24&#x2F;GC&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;24&#x2F;GC&#x2F;&quot;,&quot;title&quot;:&quot;GC&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>Garbage_Collection | Hexo</title><script src="/js/config.js"></script>
+<title>GC | Hexo</title><script src="/js/config.js"></script>
   
 
 
@@ -97,7 +98,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -110,6 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%95%E4%B8%BA%E5%9E%83%E5%9C%BE"><span class="nav-number">1.</span> <span class="nav-text">何为垃圾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8A%E6%94%BE%E5%86%85%E5%AD%98%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">释放内存的三种方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC%E7%9A%84Generation%E4%BC%98%E5%85%88%E5%9B%9E%E6%94%B6"><span class="nav-number">3.</span> <span class="nav-text">GC的Generation优先回收</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%98%E7%AE%A1%E8%B5%84%E6%BA%90%E5%92%8C%E9%9D%9E%E6%89%98%E7%AE%A1%E8%B5%84%E6%BA%90%E7%9A%84%E4%B8%8D%E5%90%8C%E5%9B%9E%E6%94%B6%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">托管资源和非托管资源的不同回收方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%98%E7%AE%A1"><span class="nav-number">5.</span> <span class="nav-text">托管</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC%E7%9A%84%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">GC的可达性分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">GC的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">8.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%8F%E5%B0%91GC%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">减少GC调用的方法</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -170,7 +172,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/24/Garbage-Collection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/24/GC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -183,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Garbage_Collection
+          GC
         </h1>
 
         <div class="post-meta-container">
@@ -195,7 +197,16 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-05-24 10:28:04 / Modified: 10:30:08" itemprop="dateCreated datePublished" datetime="2021-05-24T10:28:04+08:00">2021-05-24</time>
+      <time title="Created: 2021-05-24 10:48:57 / Modified: 10:50:00" itemprop="dateCreated datePublished" datetime="2021-05-24T10:48:57+08:00">2021-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
     </span>
 
   
@@ -208,25 +219,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><strong>何为垃圾</strong></p>
-<p>.NET类型分为两大类，值类型和引用类型。前者分配在栈上，不需要GC回收，而后者分配在堆上，其内存释放和回收需要通过GC.一个引用类型对象所占用的内存需要被GC回收，需要先成为垃圾,只要判定此对象或者其包含的子对象没有任何引用是有效的，那么就认为它是垃圾。</p>
+        <p>垃圾回收机制是C#中重要的内存管理机制，学习C#包括使用C#的Unity时，想要合理地控制内存，提升性能，就需要了解垃圾回收的具体机制，本文整理了网上许多博客的内容，汇集成一篇较为详尽的GC介绍</p>
+<span id="more"></span>
+<h1 id="何为垃圾"><a href="#何为垃圾" class="headerlink" title="何为垃圾"></a><strong>何为垃圾</strong></h1><p>.NET类型分为两大类，值类型和引用类型。前者分配在栈上，不需要GC回收，而后者分配在堆上，其内存释放和回收需要通过GC.一个引用类型对象所占用的内存需要被GC回收，需要先成为垃圾,只要判定此对象或者其包含的子对象没有任何引用是有效的，那么就认为它是垃圾。</p>
 <p>内存的释放和回收需要伴随着程序的运行，因此系统为GC安排了独立的线程。那么GC的工作大致是，查询内存中对象是否成为垃圾，然后对垃圾进行释放和回收</p>
 <p>对于内存中的垃圾分为两种，一种是需要调用对象的析构函数，另一种是不需要调用的。GC对于前者的回收需要通过两步完成，第一步是调用对象的析构函数，第二步是回收内存，但是要注意这两步不是在GC一次轮循完成，即需要两次轮循；相对于后者，则只是回收内存而已。</p>
-<p><strong>释放内存的三种方法</strong></p>
-<p>构函数只能被GC来调用的，无法确定它什么时候被调用，因此用它作为资源的释放并不是很合理，因为资源释放不及时；但是毕竟它会被GC调用，因此为了防止资源泄漏，析构函数可以作为一个补救方法。而Close与Dispose这两种方法的区别在于，调用完了对象的Close方法后，此对象有可能被重新进行使用；而Dispose方法来说，此对象所占有的资源需要被标记为无用了，也就是此对象被销毁了，不能再被使用。</p>
-<p><strong>GC的Generation优先回收</strong></p>
-<p>GC为了提高回收的效率使用了Generation的概念，原理是这样的，第一次回收之前创建的对象属于Generation 0，之后，每次回收时这个Generation的号码就会向后挪一，也就是说，第二次回收时原来的Generation 0变成了Generation 1，而在第一次回收后和第二次回收前创建的对象将属于Generation 0。GC会先试着在属于Generation 0的对象中回收，因为这些是最新的，所以最有可能会被回收，比如一些函数中的局部变量在退出函数时就没有引用了（可被回收）。如果在Generation 0中回收了足够的内存，那么GC就不会再接着回收了，如果回收的还不够，那么GC就试着在更高代回收</p>
-<p><strong>托管资源和非托管资源的不同回收方式</strong></p>
-<p>在C#中，资源分为托管资源和非托管资源两种。GC在回收无用对象资源时，可以自动回收托管资源（比如托管内存），但对于非托管资源（比如Socket、文件、数据库连接）必须在程序中显式释放。</p>
+<h1 id="释放内存的三种方法"><a href="#释放内存的三种方法" class="headerlink" title="释放内存的三种方法"></a><strong>释放内存的三种方法</strong></h1><p>构函数只能被GC来调用的，无法确定它什么时候被调用，因此用它作为资源的释放并不是很合理，因为资源释放不及时；但是毕竟它会被GC调用，因此为了防止资源泄漏，析构函数可以作为一个补救方法。而Close与Dispose这两种方法的区别在于，调用完了对象的Close方法后，此对象有可能被重新进行使用；而Dispose方法来说，此对象所占有的资源需要被标记为无用了，也就是此对象被销毁了，不能再被使用。</p>
+<h1 id="GC的Generation优先回收"><a href="#GC的Generation优先回收" class="headerlink" title="GC的Generation优先回收"></a><strong>GC的Generation优先回收</strong></h1><p>GC为了提高回收的效率使用了Generation的概念，原理是这样的，第一次回收之前创建的对象属于Generation 0，之后，每次回收时这个Generation的号码就会向后挪一，也就是说，第二次回收时原来的Generation 0变成了Generation 1，而在第一次回收后和第二次回收前创建的对象将属于Generation 0。GC会先试着在属于Generation 0的对象中回收，因为这些是最新的，所以最有可能会被回收，比如一些函数中的局部变量在退出函数时就没有引用了（可被回收）。如果在Generation 0中回收了足够的内存，那么GC就不会再接着回收了，如果回收的还不够，那么GC就试着在更高代回收</p>
+<h1 id="托管资源和非托管资源的不同回收方式"><a href="#托管资源和非托管资源的不同回收方式" class="headerlink" title="托管资源和非托管资源的不同回收方式"></a><strong>托管资源和非托管资源的不同回收方式</strong></h1><p>在C#中，资源分为托管资源和非托管资源两种。GC在回收无用对象资源时，可以自动回收托管资源（比如托管内存），但对于非托管资源（比如Socket、文件、数据库连接）必须在程序中显式释放。</p>
 <p>托管资源的回收首先需要GC识别无用对象，然后回收其资源。一般无用对象是指通过当前的系统根对象和调用堆栈对象不可达的对象。对象有一个重要的特点导致无用对象判断的复杂性：对象间的相互引用！如果没有相互引用，就可以通过“引用计数”这种简单高效的方式实现无用对象的判断，并实现实时回收。正是由于相互引用的存在导致GC需要设计更为复杂的算法，这样带来的最大问题在于丧失了资源回收的实时性，而变成一种不确定的方式。</p>
 <p>对于非托管资源的释放，C#提供了两种方式：</p>
 <p>1.Finalizer：写法貌似C++的析构函数，本质上却相差甚远。Finalizer是对象被GC回收之前调用的终结器，初衷是在这里释放非托管资源，但由于GC运行时机的不确定性，通常会导致非托管资源释放不及时。另外，Finalizer可能还会有意想不到的副作用，比如：被回收的对象已经没有被其他可用对象所引用，但Finalizer内部却把它重新变成可用，这就破坏了GC垃圾收集过程的原子性，增大了GC开销。</p>
 <p>2.Dispose Pattern：C#提供using关键字支持Dispose Pattern进行资源释放。这样能通过确定的方式释放非托管资源，而且using结构提供了异常安全性。所以，一般建议采用Dispose Pattern，并在Finalizer中辅以检查，如果忘记显式Dispose对象则在Finalizer中释放资源。</p>
 <p>GC为程序带来安全方便的同时也付出了不小的代价：一则丧失了托管资源回收的实时性，这在实时系统和资源受限系统中是致命的；二则没有把C#托管资源和非托管资源的管理统一起来，造成概念割裂。</p>
-<p><strong>托管</strong></p>
-<p>托管是托付C#运行环境帮我们去管理，在这个运行环境中可以帮助我们开辟内存和释放内存，开辟内存一般用new，内存是随机分配的，释放主要靠的是GC也就是垃圾回收机制,但是GC无法回收非托管对象</p>
-<p><strong>GC的可达性分析</strong></p>
-<p>引用计数法:给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值加1；当引用失效时，计数器减1；任何时刻计数器都为0的对象就是不可能再被使用的。</p>
+<h1 id="托管"><a href="#托管" class="headerlink" title="托管"></a><strong>托管</strong></h1><p>托管是托付C#运行环境帮我们去管理，在这个运行环境中可以帮助我们开辟内存和释放内存，开辟内存一般用new，内存是随机分配的，释放主要靠的是GC也就是垃圾回收机制,但是GC无法回收非托管对象</p>
+<h1 id="GC的可达性分析"><a href="#GC的可达性分析" class="headerlink" title="GC的可达性分析"></a><strong>GC的可达性分析</strong></h1><p>引用计数法:给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值加1；当引用失效时，计数器减1；任何时刻计数器都为0的对象就是不可能再被使用的。</p>
 <p>引用计数算法的实现简单，判断效率也很高，在大部分情况下它都是一个不错的算法,但它很难解决对象之间相互循环引用的问题。</p>
 <p>GC Roots Analysis：主流用这个判断</p>
 <p>基本思路就是通过一系列名为”GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain)，当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的</p>
@@ -252,12 +259,10 @@
 <p>在GC被启动以后，经过Mark阶段分辨出哪些是垃圾。再在垃圾中搜索，如果发现垃圾中有被Finalization Queue中的指针所指向的对象，则将这个对象从垃圾中分离出来，并将指向它的指针移动到Freachable Queue中。这个过程被称为是对象的复生（Resurrection），本来死去的对象就这样被救活了。为什么要救活它呢？因为这个对象的Finalize方法还没有被执行，所以不能让它死去。Freachable Queue平时不做什么事，但是一旦里面被添加了指针之后，它就会去触发所指对象的Finalize方法执行，之后将这个指针从队列中剔除，这是对象就可以安静的死去了。</p>
 <p>值类型在栈里，先进后出，值类型变量的生命有先后顺序，这个确保了值类型变量在退出作用域以前会释放资源。比引用类型更简单和高效。堆栈是从高地址往低地址分配内存。</p>
 <p>引用类型分配在托管堆(Managed Heap)上，声明一个变量在栈上保存，当使用new创建对象时，会把对象的地址存储在这个变量里。托管堆相反，从低地址往高地址分配内存</p>
-<p><strong>GC的问题</strong></p>
-<p>首先，GC并不是能释放所有的资源。它不能自动释放非托管资源。</p>
+<h1 id="GC的问题"><a href="#GC的问题" class="headerlink" title="GC的问题"></a><strong>GC的问题</strong></h1><p>首先，GC并不是能释放所有的资源。它不能自动释放非托管资源。</p>
 <p>第二，GC并不是实时性的，这将会造成系统性能上的瓶颈和不确定性。</p>
 <p>GC并不是实时性的，这会造成系统性能上的瓶颈和不确定性。所以有了IDisposable接口，IDisposable接口定义了Dispose方法，这个方法用来供程序员显式调用以释放非托管资源。使用using语句可以简化资源管理。</p>
-<p><strong>注意事项</strong></p>
-<p>1、只管理内存，非托管资源，如文件句柄，GDI资源，数据库连接等还需要用户去管理。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a><strong>注意事项</strong></h1><p>1、只管理内存，非托管资源，如文件句柄，GDI资源，数据库连接等还需要用户去管理。</p>
 <p>2、循环引用，网状结构等的实现会变得简单。GC的标志-压缩算法能有效的检测这些关系，并将不再被引用的网状结构整体删除。</p>
 <p>3、GC通过从程序的根对象开始遍历来检测一个对象是否可被其他对象访问，而不是用类似于COM中的引用计数方法。</p>
 <p>4、GC在一个独立的线程中运行来删除不再被引用的内存。</p>
@@ -267,8 +272,7 @@
 <p>8、Finalizer的使用有性能上的代价。需要Finalization的对象不会立即被清除，而需要先执行Finalizer.Finalizer，不是在GC执行的线程被调用。GC把每一个需要执行Finalizer的对象放到一个队列中去，然后启动另一个线程来执行所有这些Finalizer，而GC线程继续去删除其他待回收的对象。在下一个GC周期，这些执行完Finalizer的对象的内存才会被回收。</p>
 <p>9、.NET GC使用”代”(generations)的概念来优化性能。代帮助GC更迅速的识别那些最可能成为垃圾的对象。在上次执行完垃圾回收后新创建的对象为第0代对象。经历了一次GC周期的对象为第1代对象。经历了两次或更多的GC周期的对象为第2代对象。代的作用是为了区分局部变量和需要在应用程序生存周期中一直存活的对象。大部分第0代对象是局部变量。成员变量和全局变量很快变成第1代对象并最终成为第2代对象。</p>
 <p>10、GC对不同代的对象执行不同的检查策略以优化性能。每个GC周期都会检查第0代对象。大约1/10的GC周期检查第0代和第1代对象。大约1/100的GC周期检查所有的对象。重新思考Finalization的代价：需要Finalization的对象可能比不需要Finalization在内存中停留额外9个GC周期。如果此时它还没有被Finalize，就变成第2代对象，从而在内存中停留更长时间。</p>
-<p><strong>减少GC调用的方法</strong></p>
-<p>GC会stop the world。会暂停程序的执行，带来延迟的代价。所以在开发中，我们不希望GC的次数过多。</p>
+<h1 id="减少GC调用的方法"><a href="#减少GC调用的方法" class="headerlink" title="减少GC调用的方法"></a><strong>减少GC调用的方法</strong></h1><p>GC会stop the world。会暂停程序的执行，带来延迟的代价。所以在开发中，我们不希望GC的次数过多。</p>
 <p><strong>(1)对象不用时最好显式置为 Null</strong></p>
 <p>一般而言,为 Null 的对象都会被作为垃圾处理,所以将不用的对象显式地设</p>
 <p>为 Null,有利于 GC 收集器判定垃圾,从而提高了 GC 的效率。</p>
@@ -294,6 +298,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Unity%EF%BC%8C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># Unity，性能优化</a>
+          </div>
 
         
 
