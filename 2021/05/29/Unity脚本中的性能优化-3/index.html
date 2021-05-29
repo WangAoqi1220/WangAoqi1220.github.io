@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Muse&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;Searching...&quot;,&quot;empty&quot;:&quot;We didn&#39;t find any results for the search: ${query}&quot;,&quot;hits_time&quot;:&quot;${hits} results found in ${time} ms&quot;,&quot;hits&quot;:&quot;${hits} results found&quot;}}</script>
+<meta name="description" content="紧接着上一篇性能优化，继续讨论关于信息传输中的性能提升">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity脚本中的性能优化(3)">
+<meta property="og:url" content="http://example.com/2021/05/29/Unity%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="紧接着上一篇性能优化，继续讨论关于信息传输中的性能提升">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-29T07:02:38.000Z">
+<meta property="article:modified_time" content="2021-05-29T07:05:17.026Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Unity，性能优化">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/05/29/Unity%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;en&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;05&#x2F;29&#x2F;Unity%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-3&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;29&#x2F;Unity脚本中的性能优化-3&#x2F;&quot;,&quot;title&quot;:&quot;Unity脚本中的性能优化(3)&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Unity脚本中的性能优化(3) | Hexo</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E4%BD%BF%E7%94%A8SendMessage-%E5%92%8CFind"><span class="nav-number">1.</span> <span class="nav-text">避免在运行时使用SendMessage()和Find()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E5%BC%95%E7%94%A8%E5%88%86%E9%85%8D%E7%BB%99%E9%A2%84%E5%85%88%E5%AD%98%E5%9C%A8%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">将引用分配给预先存在的对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">静态类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E7%BB%84%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">单例组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E4%BF%A1%E6%81%AF%E4%BC%A0%E9%80%92%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.</span> <span class="nav-text">全局信息传递系统</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/29/Unity%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity脚本中的性能优化(3)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-05-29 15:02:38 / Modified: 15:05:17" itemprop="dateCreated datePublished" datetime="2021-05-29T15:02:38+08:00">2021-05-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>紧接着上一篇性能优化，继续讨论关于信息传输中的性能提升</p>
+<span id="more"></span>
+<h1 id="避免在运行时使用SendMessage-和Find"><a href="#避免在运行时使用SendMessage-和Find" class="headerlink" title="避免在运行时使用SendMessage()和Find()"></a>避免在运行时使用SendMessage()和Find()</h1><p>以SendMessage()和GameObject.Find()方法进行对象间通信会产生非常明显的开销，还可能会丢失帧，应当尽量避免在运行时使用它们。下面从一个最坏的示例开始，研究其改进方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">uisng UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">class</span> <span class="title">EnemyManagerComponent</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">  List&lt;GameObject&gt; _enemies = <span class="keyword">new</span> List&lt;GameObject&gt;();</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddEnemy</span>(<span class="params">GameObject enemy</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="keyword">if</span>(!_enemies.Contains(enemy))</span><br><span class="line">    &#123;</span><br><span class="line">      _enemies.Add(enemy);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">KillAll</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _enemies.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      GameObject.Destroy(_enemies[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    _enemies.Clear();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将该脚本挂载的GameObject命名为EnemyManager，下面的方法尝试从给定预制中实例化一些敌人，并将它们的存在通知给EnemyManager对象：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEnemies</span>(<span class="params"><span class="built_in">int</span> numEnemies</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; numEnemies; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    GameObject enemy = (GameObject)GameObject.Instantiate(_enemyPrefab,<span class="number">5.0f</span>*Random.insideUnitSphere,Quaternion.identity);</span><br><span class="line">    <span class="built_in">string</span>[] names = &#123;<span class="string">&quot;Tom&quot;</span>, <span class="string">&quot;Dick&quot;</span>, <span class="string">&quot;Harry&quot;</span>&#125;;</span><br><span class="line">    enemy.name = names[Random.Range(<span class="number">0</span>,names.Length)];</span><br><span class="line">    GameObject enemyManagerObj = GameObject.Find(<span class="string">&quot;EnemyManager&quot;</span>);</span><br><span class="line">    enemyManagerObj.SendMessage(<span class="string">&quot;AddEnemy&quot;</span>,enemy,SendMessageOptions.DontRequireReceiver);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但这样每次循环都要调用Find()，改进方法是将Find()调用移出for循环，并将结果缓存到一个局部变量中。另一方面，可以用GetComponent()调用替换SendMessage()方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEnemies</span>(<span class="params"><span class="built_in">int</span> numEnemies</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  GameObject enemyManagerObj = GameObject.Find(<span class="string">&quot;EnemyManager&quot;</span>);</span><br><span class="line">  EnemyManagerComponent enemyMgr = enemyManagerObj.GetComponent&lt;EnemyManagerComponent&gt;();</span><br><span class="line">  <span class="built_in">string</span>[] names = &#123;<span class="string">&quot;Tom&quot;</span>, <span class="string">&quot;Dick&quot;</span>, <span class="string">&quot;Harry&quot;</span>&#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; numEnemies; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    GameObject enemy = (GameObject)GameObject.Instantiate(_enemyPrefab,<span class="number">5.0f</span>*Random.insideUnitSphere,Quaternion.identity);</span><br><span class="line">    enemy.name = names[Random.Range(<span class="number">0</span>,names.Length)];</span><br><span class="line">    enemyMgr.AddEnemy(enemy);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们经常需要在运行时实例化新对象来查找要通信的现有对象，在这个示例中，希望新的敌人对象注册到EnemyManager组件中，以使它可以在场景中跟踪和控制敌人对象。EnemyManager还要处理所有与敌人相关的行为，这样调用其函数的对象就不需要执行相关的工作。这将改善应用程序的耦合和封装，最终实现一个可靠快速的方法，让新对象查找场景中现有的对象，而不需要find()方法。</p>
+<h2 id="将引用分配给预先存在的对象"><a href="#将引用分配给预先存在的对象" class="headerlink" title="将引用分配给预先存在的对象"></a>将引用分配给预先存在的对象</h2><p>使用Unity内置的序列化系统可以解决对象间通讯问题。在MonoBehaviour中创建公共字段，Unity会自动序列化并在Inspector窗口显示该值。但公共字段比较危险，这些变量可以在任何时间、任何地点通过代码进行修改，因此很难跟踪变量，还可能引入意想不到的bug。更好的解决办法是获取类的任何私有成员变量或受保护的成员变量，并使用[SerializedField]属性将其显示在Inspector窗口。对于Inspector窗口，该值将表现为一个公共字段，允许通过编辑器界面方便地更改它，但将数据安全地封装在代码库地其他部分。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EnemyCreatorComponent</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">SerializeField</span>] <span class="keyword">private</span> <span class="built_in">int</span> _numEnemies;</span><br><span class="line">  [<span class="meta">SerializeField</span>] <span class="keyword">private</span> GameObject _enemyPrefab;</span><br><span class="line">  [<span class="meta">SerializeField</span>] <span class="keyword">private</span> EnemyManagerComponent _enemyManager;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _numEnemies; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    CreateEnemy();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEnemy</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _enemyManager.CreateEnemy(_enemyPrefab);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后将Project窗口下的一个预制体拖拽到Inspector窗口中的序列化字段中。像_enemyManager这样特定的MonoBehaviour类类型的引用，如果将GameObject拖放到这个字段中，它将引用给定对象上的组件，而不是GameObject本身。若GameObject不包含预期的MonoBehaviour，就不会为该字段分配任何内容。<br>这种方法有可能导致错误分类类型，从而意外地实例化一个新的GameObject，可能会对一个预制体做出永久改变。它对于解决对象间通信问题是团队友好的，但并非最理想，团队成员可能会意外留下空引用，将prefab赋予期望存在于场景中的GameObject实例的字段。</p>
+<p>需要注意的是，并非所有对象都可以序列化并显示在Inspector窗口中，静态字段，只读字段，属性和字典无法被序列化。</p>
+<h2 id="静态类"><a href="#静态类" class="headerlink" title="静态类"></a>静态类</h2><p>该方法涉及在任何时候创建一个对整个代码库全局可访问的类，这种方法存在问题，更改可以在运行期间的任何位置和任何点发生，并且此种类倾向于维护其他系统所依赖的状态信息，因而问题难以调试。它也很难更改和替换，因为许多类可能包含对它的直接函数调用。</p>
+<p>单例设计模式是确保某个对象类想的实例在内存中只存在一个的常用方法，通过给类提供提供一个私有构造函数来实现，维护一个静态变量来葛农对象实例，类只能通过它提供的静态属性来访问。单例模式对于管理共享资源或繁重的数据流量非常有用，确保了有一个入口点来进行这些活动，而不是让大量不同的子系统来竞争共享资源，并可能造成彼此的瓶颈。</p>
+<p>单例并非一定是全局可访问的对象，它最重要的特性是一次只存在一个对象实例，但大多数项目中主要使用单例模式作为一些共享功能的全局访问点，并设计其在应用程序初始化期间创建一次，存在于整个生命周期中，最后在应用程序关闭期间销毁。在C#中，静态类更为简单高效。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">StaticEnemyManager</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> List&lt;Enemy&gt; _enemies;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateEnemy</span>(<span class="params">GameObject prefab</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="built_in">string</span>[] names = &#123;<span class="string">&quot;Tom&quot;</span>, <span class="string">&quot;Dick&quot;</span>, <span class="string">&quot;Harry&quot;</span>&#125;;</span><br><span class="line">    GameObject enemy = GameObjet.Instantiate(prefab,<span class="number">5.0f</span>*Random.insideUnitSphere,Quaternion.identity);</span><br><span class="line">    Enemy enemyComp = enemy.GetComponent&lt;Enemy&gt;();</span><br><span class="line">    enemy.gameObject.name = names[Random.Range(<span class="number">0</span>, names.Length)];</span><br><span class="line">    _enemies.Add(enemyComp);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">KillAll</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; _enemies.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      _enemies[i].Die();</span><br><span class="line">      GameObject.Destroy(_enemies[i].gameObject);</span><br><span class="line">    &#125;</span><br><span class="line">    _enemies.Clear();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>静态类的每个方法，属性，字段都必须附加static关键词，这意味着在内存中永远只保存该对象的一个实例，且它的公共方法和字段可以从任何地方访问。静态类不允许定义任何非静态字段。<br>静态类字段可以这样内联初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static List&lt;Enemy&gt; _enemies &#x3D; new List&lt;Enemy&gt;();</span><br></pre></td></tr></table></figure>
+<p>但若要更复杂的构造，可以提供静态构造方法，当类首次通过其任意字段，属性或方法来访问时，自动调用静态类的构造方法.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">StaticEnemyManager</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _enemies = <span class="keyword">new</span> List&lt;Enemy&gt;();</span><br><span class="line">  <span class="comment">//more complicated initialization activity goes here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但静态类仍需要一个对预制体的引用，从预制体中实例化一个敌人对象。可以为静态类实现一个伙伴组件，以保持代码恰当地解耦。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EnemyCreatorCompanionComponent</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">SerializeField</span>] <span class="keyword">private</span> GameObject _enemyPrefab;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEnemy</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    StaticEnemyManager.CreateEnemy(_enemyPrefab);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单例组件"><a href="#单例组件" class="headerlink" title="单例组件"></a>单例组件</h2><p>实现一个类似于单例的组件——它提供静态方法来授予全局访问权，在任何给定时间都只允许MonoBehaviour的一个实例存在。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SingletonComponent</span>&lt;<span class="title">T</span>&gt; : <span class="title">MonoBehaviour</span> <span class="keyword">where</span> <span class="title">T</span> :</span><br><span class="line"><span class="title">SingletonComponent</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> T __Instance;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">static</span> SingletonComponent&lt;T&gt; _Instance</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">get</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span>(!__Instance)</span><br><span class="line">      &#123;</span><br><span class="line">        T[] managers = GameObject.FindObjectsOfType(<span class="keyword">typeof</span>(T)) <span class="keyword">as</span> T[];</span><br><span class="line">        <span class="keyword">if</span>(managers != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span>(managers.Length == <span class="number">1</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            __Instance = managers[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">return</span> __Instance;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span>(managers.Length &gt; <span class="number">1</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;You have more than one &quot;</span> + <span class="keyword">typeof</span>(T).Name + <span class="string">&quot; in the Scene. You only need one - it&#x27;s a singleton!&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; managers.Length; i++)</span><br><span class="line">            &#123;</span><br><span class="line">              T manager = managers[i];</span><br><span class="line">              Destroy(manager.gameObject);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">          GameObject go = <span class="keyword">new</span> GameObject(<span class="keyword">typeof</span>(T).Name, <span class="keyword">typeof</span>(T));</span><br><span class="line">          __Instance = go.GetComponent&lt;T&gt;();</span><br><span class="line">          DontDestroyOnLoad(__Instance.gameObject);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> __Instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span></span><br><span class="line">    &#123;</span><br><span class="line">        __Instance = <span class="keyword">value</span> <span class="keyword">as</span> T;  </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个类的工作方式是在第一次被访问时创建一个包含组件的GameObject，并调用DontDestroyOnLoad()，只要应用程序在运行，就希望对象在场景之间持久存在。该类定义有两个假设，首先它使用泛型来定义它的行为，所以为了创建具体的类，必须派生它。其次，必须定义一个方法来分配<strong>Instance属性(设置私有的</strong>Instance字段)，并将其转换为正确的类类型</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EnemyManagerSingletonComponent</span> : <span class="title">SingletonComponent</span>&lt;<span class="title">EnemyManagerSingletonComponent</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> EnemyManagerSingletonComponent Instance</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">get</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">return</span> ((EnemyManagerSingletonComponent)_Instance);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span></span><br><span class="line">    &#123;</span><br><span class="line">      _Instance = <span class="keyword">value</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEnemy</span>(<span class="params">GameObject prefab</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="comment">//same as SaticEnemyManager</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">KillAll</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="comment">//same as StaticEnemyManager</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当其他对象在任何时候访问Instance属性，可以在运行时使用这个类。若组件在场景中还不存在，那么SingletonComponent基类将实例化它自己的GameObject，并将派生类的一个实例作为组件附加到它上面。从那时起，通过Instance属性的访问将引用创建的组件，并且一次只存在该组件的一个实例。因此，并不需要在单例组件的类定义中实现静态方法，可以调用EnemyManagerSingletonComponent.Instance.KillAll()来访问KillAll()方法。<br>注意，在任何MonoBehaviour组件的OnDestroy()回调期间都不要调用SingletonComponent对象，避免单例被销毁，但单例组件的实例留在场景中，因为单例模式经常被设计成利用Observer设计模式。</p>
+<p>使用Observer设计模式，对象在创建时通常会注册到系统，在运行时使用它，然后在使用结束后从系统注销，或者为了清理而在关机时注销，这些注销任务最好发生在OnDestroy()中</p>
+<p>因此，我们需要做三个改动。首先，需要向SingletonComponent添加一个额外标记，跟踪其活动状态，并在适当的时候禁用它</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">bool</span> _alive = <span class="literal">true</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnDestroy</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _alive = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnApplicationQuit</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _alive = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其次，应该实现一种外部对象验证单例当前状态的方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> IsAlive</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">get</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(__Instance == <span class="literal">null</span>)</span><br><span class="line">      <span class="keyword">return</span> fasle;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="keyword">return</span> __Instance._alive;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，任何对象在其自身的OnDestroy()方法中尝试调用单例对象，必须首先用IsAlive属性来验证状态，然后再调用实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class SomeComponent : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">  void OnDestroy()</span><br><span class="line">  &#123;</span><br><span class="line">    if(MySingletonComponent.IsAlive)</span><br><span class="line">    &#123;</span><br><span class="line">      MySingletonComponent.Instance.SomeMethod();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这将确保在销毁期间没有人试图访问单例实例。<br>单例的问题在于，尝试分配__Instance引用变量之前，会使用一次Find()调用来确定场景中是否已经存在这些SingletonComponent对象；其次如果之后决定一次执行多个单例，或决定将其行为分离出来，使其模块化，就需要修改大量代码。</p>
+<h2 id="全局信息传递系统"><a href="#全局信息传递系统" class="headerlink" title="全局信息传递系统"></a>全局信息传递系统</h2><p>该部分内容较多，由之后一篇完整博客来介绍该系统</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Unity%EF%BC%8C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># Unity，性能优化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/26/Unity%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-2/" rel="prev" title="Unity脚本中的性能优化(2)">
+                  <i class="fa fa-chevron-left"></i> Unity脚本中的性能优化(2)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
