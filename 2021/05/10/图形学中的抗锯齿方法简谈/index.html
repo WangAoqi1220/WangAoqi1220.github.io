@@ -20,28 +20,36 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Muse&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;Searching...&quot;,&quot;empty&quot;:&quot;We didn&#39;t find any results for the search: ${query}&quot;,&quot;hits_time&quot;:&quot;${hits} results found in ${time} ms&quot;,&quot;hits&quot;:&quot;${hits} results found&quot;}}</script>
-<meta name="description" content="GAMES101当中有提到在光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章能够更细致地了解图形学中的抗锯齿方法，对于反走样技术有更深入的理解">
+<meta name="description" content="GAMES101 中有提到过光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章更细致地介绍图形学中的抗锯齿方法，更深入的理解反走样技术。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图形学中的抗锯齿方法简谈">
 <meta property="og:url" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="GAMES101当中有提到在光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章能够更细致地了解图形学中的抗锯齿方法，对于反走样技术有更深入的理解">
+<meta property="og:description" content="GAMES101 中有提到过光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章更细致地介绍图形学中的抗锯齿方法，更深入的理解反走样技术。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510163910683.png">
-<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510163944411.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134704916.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134751372.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134804760.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134819925.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134853676.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602135010073.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602135026738.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602135107716.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602135203035.png">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510163951167.png">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510163957839.png">
-<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510164003673.png">
-<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510164009806.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602141149715.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602141213078.png">
+<meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602141222679.png">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/v2-47e8f051f2a23d6237f6c716e45d0486_720w.jpg">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/v2-ca4b12014f60382a5bd256f1b54d2f8e_720w.jpg">
 <meta property="og:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/v2-bda5510a97098812efbf98bc075bbb59_720w.jpg">
 <meta property="article:published_time" content="2021-05-10T08:10:37.000Z">
-<meta property="article:modified_time" content="2021-05-11T05:45:54.217Z">
+<meta property="article:modified_time" content="2021-06-02T06:20:04.719Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="图形学">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210510163910683.png">
+<meta name="twitter:image" content="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/image-20210602134704916.png">
 
 
 <link rel="canonical" href="http://example.com/2021/05/10/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E4%B8%AD%E7%9A%84%E6%8A%97%E9%94%AF%E9%BD%BF%E6%96%B9%E6%B3%95%E7%AE%80%E8%B0%88/">
@@ -118,7 +126,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%AF%E9%BD%BF%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.</span> <span class="nav-text">锯齿产生的原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSAA-super-sample-anti-aliasing"><span class="nav-number">2.</span> <span class="nav-text">SSAA(super sample anti-aliasing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MSAA-Multisampling-Antialising"><span class="nav-number">3.</span> <span class="nav-text">MSAA(Multisampling Antialising)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FXAA-Fast-Approximate-Anti-Aliasing"><span class="nav-number">4.</span> <span class="nav-text">FXAA(Fast Approximate Anti-Aliasing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TAA-Temporal-Antialiasing"><span class="nav-number">5.</span> <span class="nav-text">TAA(Temporal Antialiasing)</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%AF%E9%BD%BF%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">锯齿产生的原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSAA-super-sample-anti-aliasing"><span class="nav-number">3.</span> <span class="nav-text">SSAA(super sample anti-aliasing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MSAA-Multisampling-Antialising"><span class="nav-number">4.</span> <span class="nav-text">MSAA(Multisampling Antialising)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FXAA-Fast-Approximate-Anti-Aliasing"><span class="nav-number">5.</span> <span class="nav-text">FXAA(Fast Approximate Anti-Aliasing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TAA-Temporal-Antialiasing"><span class="nav-number">6.</span> <span class="nav-text">TAA(Temporal Antialiasing)</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -210,7 +218,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-11 13:45:54" itemprop="dateModified" datetime="2021-05-11T13:45:54+08:00">2021-05-11</time>
+        <time title="Modified: 2021-06-02 14:20:04" itemprop="dateModified" datetime="2021-06-02T14:20:04+08:00">2021-06-02</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,32 +240,62 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>GAMES101当中有提到在光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章能够更细致地了解图形学中的抗锯齿方法，对于反走样技术有更深入的理解</p>
+        <p>GAMES101 中有提到过光栅化阶段的抗锯齿方法，但讲得比较宽泛，希望通过这篇文章更细致地介绍图形学中的抗锯齿方法，更深入的理解反走样技术。</p>
 <span id="more"></span>
-<h1 id="锯齿产生的原因"><a href="#锯齿产生的原因" class="headerlink" title="锯齿产生的原因"></a>锯齿产生的原因</h1><p>渲染从本质上讲，是一个采样的过程，锯齿的产生其实根本原因就是采样不足导致的，这要首先提到频率图。在频谱图中，频域的中心为低频信号，四周为高频信号，从频率的角度来看，采样即为不断重复频域上的内容。</p>
-<p><img src="image-20210510163910683.png" alt="image-20210510163910683"></p>
-<p>当我们采样的频滤不足时，信号与复制信号发生了混叠，从而导致了锯齿的出现。</p>
-<p><img src="image-20210510163944411.png" alt="image-20210510163944411"></p>
-<p>根据原因，我们也能够很容易得出抗锯齿的办法：</p>
-<p>①提高采样频率</p>
-<p>②去除高频信号(将频谱图混叠部分去除)，即对图象模糊处理，再进行采样</p>
-<h1 id="SSAA-super-sample-anti-aliasing"><a href="#SSAA-super-sample-anti-aliasing" class="headerlink" title="SSAA(super sample anti-aliasing)"></a>SSAA(super sample anti-aliasing)</h1><p>SSAA是一种较为原始的抗锯齿方法，锯齿出现的原因不是因为采样频率不够吗，那我们就提高采样频率，目标要1920×1080的分辨率，我们就将场景渲染至3840×2160的分辨率，之后再将渲染图片放缩为1920×1080，问题不自然就迎刃而解了嘛。</p>
-<p>再详细一些，SSAA对每一个像素取n个子采样点，对每一个子采样点分别着色计算，最后对每个子采样点的颜色求平均，得到该像素点的颜色值。</p>
+<p>我们将首先回顾一下锯齿是什么，分析其产生原因，从而进一步探讨不同的抗锯齿方法如 SSAA、MSAA、FXAA、TAA 等。</p>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><p>锯齿，是图像在渲染时，由于采样频率不足而导致图像边缘呈现锯齿化的现象，如下图。</p>
+<p><img src="image-20210602134704916.png" alt="image-20210602134704916"></p>
+<p>还要提到一个概念——采样，采样是将一个函数离散化的过程，即在一个连续的函数中，选择多个点获取其函数值，从而将一个连续的函数离散化。</p>
+<p>最后，还要讲到频域这一概念，如下图所示，一张图像经过傅里叶变换，能从时域转换到频域上，频域的中心为低频信号，四周为高频信号，而应用不同的滤波器可以过滤相应的信号。</p>
+<p><img src="image-20210602134751372.png" alt="image-20210602134751372"></p>
+<p>高通滤波器可以过滤低频信号，使得频域内仅保留高频信号，高频信息表示图像中出现较强变化的部分，即呈现图象中的轮廓边缘。</p>
+<p><img src="image-20210602134804760.png" alt="image-20210602134804760"></p>
+<p>低通滤波器可以过滤高频信号，使得频域内仅保留低频信号，低频信息表示图像中不明显的边界特征，即图象的模糊显示。</p>
+<p><img src="image-20210602134819925.png" alt="image-20210602134819925"></p>
+<h1 id="锯齿产生的原因"><a href="#锯齿产生的原因" class="headerlink" title="锯齿产生的原因"></a>锯齿产生的原因</h1><p>我们已经知道了锯齿是什么，为了解决锯齿的问题并引出抗锯齿的一系列方法，还需要进一步探索一下锯齿产生的根本原因。下图中，左边为原始信号，右边为该信号的频谱。</p>
+<p><img src="image-20210602134853676.png" alt="image-20210602134853676"></p>
+<p>要对该信号进行采样，可以使用冲激函数(一种用于对连续信号进行线性表达的函数)，如下。</p>
+<p><img src="image-20210602135010073.png" alt="image-20210602135010073"></p>
+<p>经过采样后，得到如下结果。</p>
+<p><img src="image-20210602135026738.png" alt="image-20210602135026738"></p>
+<p>我们可以从 f 图看出，从频域的角度看，采样即为不断复制原始信号在频域上的频谱。</p>
+<p>当我们（冲激函数）采样的频率不足时，即时域上的冲击函数间隔增大，表现在频域上为复制信号间隔减小，信号与复制信号间发生了混叠，影响了原频谱内容，从而导致了走样(锯齿)现象。</p>
+<p><img src="image-20210602135107716.png" alt="image-20210602135107716"></p>
+<p>根据锯齿产生的原因，不难得出抗锯齿的核心思路：</p>
+<p>1、提高采样频率，以增大频域内复制信号间的间隔，避免混叠</p>
+<p>2、通过低通滤波器去除高频信号(将频谱图混叠部分去除)，即对图象模糊处理，再进行采样，如下图所示</p>
+<p><img src="image-20210602135203035.png" alt="image-20210602135203035"></p>
+<p>作为抗锯齿方法，从硬件上提升分辨率(即采样频率)显然并非是我们所想做的，接下来介绍四种抗锯齿的常用方法。</p>
+<h1 id="SSAA-super-sample-anti-aliasing"><a href="#SSAA-super-sample-anti-aliasing" class="headerlink" title="SSAA(super sample anti-aliasing)"></a>SSAA(super sample anti-aliasing)</h1><p>SSAA 是一种较为原始的、通过在一个像素内采样多个点来提升采样频率（并非直接提升硬件分辨率）的抗锯齿方法。</p>
+<p>假设渲染目标的分辨率是 1920<em>1080 ，我们可以将场景渲染至 3840</em>2160 (两倍，总共四倍)的分辨率，之后再将渲染图片放缩为原分辨率，问题自然就迎刃而解了。</p>
+<p>再详细一些，在 SSAA 中，对每一个像素取 n 个子采样点，再对每一个子采样点分别着色计算，最后将它们的颜色取平均值作为该像素点的颜色值。</p>
 <p><img src="image-20210510163951167.png" alt="image-20210510163951167"></p>
-<p>方法确实没错，得到的效果也十分可观，但是问题也就来了：每一个像素的开销变为了原来的n倍，性能的开销急剧增大。正因如此，SSAA难以应用在3D场景当中，但是在2D渲染中，这种简单粗暴的方法仍然有一席之地。</p>
-<h1 id="MSAA-Multisampling-Antialising"><a href="#MSAA-Multisampling-Antialising" class="headerlink" title="MSAA(Multisampling Antialising)"></a>MSAA(Multisampling Antialising)</h1><p>MSAA只计算每个像素的颜色，而对于那些子采样点只计算一个覆盖信息（coverage）和遮挡信息（occlusion）来把像素的颜色信息写到每个子采样点里面。每个子像素都有自己的颜色、深度模板信息，并且每一个子采样点都是需要经过深度和模板测试才能决定最终是不是把像素的颜色得到到这个子采样点所在的位置，而不是简单的作一个覆盖测试就写入颜色。</p>
-<p>覆盖信息可以通过做叉积来得到，遮挡信息可以通过z-buffer得到，两者一起决定了一个图形的可见性。</p>
-<p>就光栅化而言，MSAA跟SSAA的方式差不多，覆盖和遮挡信息都是在一个更大分辨率上进行的。对于覆盖信息来说，硬件会对每个子像素根据采样规则生成n的子采样点。接下来的这张图展示了一个使用了旋转网格（rotated grid）采样方式的子采样点位置。</p>
+<p>过采样的信号必须重新降采样到指定分辨率，这样才可以显示它，这个过程叫解析(resolving)。 </p>
+<p>SSAA 得到的效果十分可观，但同样缺陷也很大：因为每个子采样点都要计算一次着色，一个像素的开销变为了原来的 n 倍，性能的开销急剧增大。正因如此，由于 3D 场景庞大的计算量， SSAA 难以应用在 3D 场景当中，但是在 2D 渲染中，这种简单粗暴的方法仍然有一席之地。</p>
+<h1 id="MSAA-Multisampling-Antialising"><a href="#MSAA-Multisampling-Antialising" class="headerlink" title="MSAA(Multisampling Antialising)"></a>MSAA(Multisampling Antialising)</h1><p>在介绍 MSAA 之前，需要先说明两个概念，覆盖信息(coverage)和遮挡信息(occlusion)：覆盖信息描述了采样点是否与目标图形重叠，在显卡中，覆盖是通过测试一个采样点是否在像素的中心来实现的，可以通过做叉积得到；遮挡信息描述了采样点是否被目标图形所遮挡，也就是我们熟悉的 Z-buffer。两者一起决定了一个图形的可见性。</p>
+<p> MSAA 是 SSAA 的改良，前文提到 SSAA 的开销巨大，而 MSAA 针对 SSAA 中存在的不必要计算进行了优化。  </p>
+<p> SSAA 对于每个子采样点都要进行着色，而 MSAA 只需对每个像素进行着色，只执行一遍 pixel shader ，而对于那些子采样点只计算覆盖信息(coverage)和遮挡信息(occlusion)，以两者的结果来决定是否将像素点的颜色值写入该子采样点。</p>
+<p>就光栅化而言， MSAA 跟 SSAA 的方式差不多，覆盖和遮挡信息都在一个更大分辨率上进行。对于覆盖信息来说，硬件会对每个子像素根据采样规则生成 n 个子采样点。</p>
+<p>下图展示了一个使用旋转网格(rotated grid)(一种采样规则)采样方式的子采样点位置。</p>
 <p><img src="image-20210510163957839.png" alt="image-20210510163957839"></p>
-<p>三角形会与像素的每个子采样点进行覆盖测试，会生成一个二进制覆盖掩码，它代表了这个三角形覆盖当前像素的比例。对于遮挡测试来说，三角形的深度在每一个覆盖的子采样点的位置进行插值，并且跟z-buffer中的深度信息进行比较。由于深度测试是在每个子采样点的级别而不是像素级别进行的，深度buffer必须相应的增大以来存储额外的深度值。在实现中，这意味着深度缓冲区是非MSAA情况下的n倍。</p>
-<p>MSAA跟SSAA不同的地方在于，SSAA对于所有子采样点着色，而MSAA只对当前像素覆盖掩码不为0的进行着色，顶点属性在像素的中心进行插值用于在fragment程序中着色。这是MSAA相对于SSAA来说最大的好处。</p>
-<p>虽然我们只对每个像素进行着色，但是并不意味着我们只需要存储一个颜色值，而是需要为每一个子采样点都存储颜色值，所以我们需要额外的空间来存储每个子采样点的颜色值。所以，颜色缓冲区的大小也为非MSAA下的n倍。当一个fragment程序输出值时，只有通过了覆盖测试和遮挡测试的子采样点才会被写入值。因此如果一个三角形覆盖了4倍采样方式的一半，那么一半的子采样点会接收到新的值。或者如果所有的子采样点都被覆盖，那么所有的都会接收到值。接下来的这张图展示了这个概念：</p>
-<p><img src="image-20210510164003673.png" alt="image-20210510164003673"></p>
-<p>像SSAA一样，过采样的信号必须重新采样到指定的分辨率，这样我们才可以显示它。</p>
-<p>这个过程叫解析（resolving）。在它最早的版本里，解析过程是在显卡的固定硬件里完成的。一般使用的采样方法就是一像素宽的box过滤器。这种过滤器对于完全覆盖的像素会产生跟没有使用MSAA一样的效果。好不好取决于怎么看它（好是因为你不会因为模糊而减少细节，坏是因为一个box过滤器会引入后走样（postaliasing））。对于三角形边上的像素，你会得到一个标志性的渐变颜色值，数量等于子采样点的个数。接下来的图展示了这一现象：</p>
-<p><img src="image-20210510164009806.png" alt="image-20210510164009806"></p>
-<p>整个MSAA并不是在光栅化阶段就可以完全的，它在这个阶段只是生成覆盖信息。然后计算像素颜色，根据覆盖信息和深度信息决定是否来写入子采样点。整个完成后再通过某个过滤器进行降采样得到最终的图像。</p>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ghl_carmack/p/8245032.html#?fileGuid=RKAWV8R8DXhpa2k8">https://www.cnblogs.com/ghl_carmack/p/8245032.html#</a></p>
+<p>三角形会与像素的每个子采样点进行覆盖测试，生成一个二进制覆盖掩码，表示被三角形覆盖的像素部分。</p>
+<p>紧接着是深度测试，在每一个通过覆盖测试的子采样点的位置上，三角形三个顶点进行插值计算出该点三角形的深度，并且跟 z-buffer 中的深度信息进行比较，判断其遮蔽关系。</p>
+<p>由于深度测试是在每个子采样点的级别而不是像素级别进行的，深度 buffer 必须相应地增大以来存储额外的深度值，在实现中，这意味着深度缓冲区是非 MSAA 情况下的 n 倍。</p>
+<p>以上内容 MSAA 与 SSAA 并无大异，接下来才是 MSAA 与 SSAA 的区别和优化部分。</p>
+<p>MSAA 开始与超级采样不同的地方在执行像素着色器时。在标准 MSAA 情况下，不会为每个子样本执行像素着色器。相反，对于三角形覆盖至少一个子样本的每个像素，像素着色器仅执行一次。或者换句话说，它对覆盖掩码非零的每个像素执行一次。</p>
+<p>此时，像素着色以与非 MSAA 渲染相同的方式发生：顶点属性被插值计算到像素的中心，并交由像素着色器，用于获取纹理和执行光照计算。这意味着启用 MSAA 时像素着色器成本不会大幅增加，这是 MSAA 优于 SSAA 的主要优势。</p>
+<p>尽管我们对每个覆盖的像素仅执行一次像素着色器，但在渲染目标中仅存储每个像素的一个输出值是不够的。我们需要渲染目标支持存储多个样本，以便我们可以存储来自可能部分覆盖单个像素的多个三角形的结果。因此，MSAA 渲染目标将有足够的内存来为每个像素存储 N 个子样本。渲染目标中的每个子样本都映射到光栅化期间使用的子样本点之一，以确定覆盖范围。当像素着色器输出其值时，该值仅写入覆盖测试和深度测试均通过该像素的子样本。</p>
+<p>如下图例子，使用 MSAA 后，共有两个子采样点通过了覆盖测试和深度测试，因而计算出的像素颜色只写入了这两个子采样点；若所有样本都被覆盖了，则所有子采样点都会被写入计算出的像素颜色值。</p>
+<p><img src="image-20210602141149715.png" alt="image-20210602141149715"></p>
+<p>与 SS 一样， MS 的信号必须在显示之前重新采样到输出分辨率。对于 MSAA，此过程称为解析渲染目标。在最早的版本中，解析过程是在 GPU 上的固定功能硬件中执行的。常用的过滤器是一个 1 像素宽的盒式过滤器，它本质上等同于对给定像素内的所有子采样点进行平均。经过该操作后，每个像素点的颜色值变为插值计算的原颜色值乘以通过两个测试的子采样点占总采样数的比例。</p>
+<p>经过 MSAA 后，最终能得到下图所示的结果</p>
+<p><img src="image-20210602141213078.png" alt="image-20210602141213078"></p>
+<p><img src="image-20210602141222679.png" alt="image-20210602141222679"></p>
+<p>对于三角形边上的像素，你会得到一个渐变的颜色值，渐变的颜色数量取决于子采样点的个数。还有一点要注意的是，整个 MSAA 并不是在光栅化阶段就可以完成的，它在这个阶段仅仅只是生成覆盖信息。之后还要计算像素颜色，根据覆盖信息和深度信息决定是否将像素颜色写入子采样点。</p>
+<p>整个完成后再通过某个过滤器进行降采样得到最终的图像。</p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ghl_carmack/p/8245032.html#">https://www.cnblogs.com/ghl_carmack/p/8245032.html#</a></p>
+<p><a target="_blank" rel="noopener" href="https://mynameismjp.wordpress.com/2012/10/24/msaa-overview/">https://mynameismjp.wordpress.com/2012/10/24/msaa-overview/</a></p>
 <h1 id="FXAA-Fast-Approximate-Anti-Aliasing"><a href="#FXAA-Fast-Approximate-Anti-Aliasing" class="headerlink" title="FXAA(Fast Approximate Anti-Aliasing)"></a>FXAA(Fast Approximate Anti-Aliasing)</h1><p>FXAA被用作最终渲染过程，该过程仅将渲染图像作为输入，并输出抗锯齿版本。主要思想是检测渲染图像中的边缘并将其平滑。此方法快速有效，但会使纹理细节模糊。</p>
 <p>FXAA着色器中的大多数计算将依赖于从纹理读取的像素的亮度，以0.0到1.0之间的灰度表示。为此，将使用由公式L = 0.299 <em> R + 0.587 </em> G + 0.114 * B定义的亮度。 它是红色，绿色和蓝色分量的加权总和，其中考虑了我们的眼睛对每个波长的敏感度范围。</p>
 <p>通过线性插值得到范围为[0,1]之间的浮点数的UV纹理坐标，并将其作为输入。</p>
