@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Muse&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;Searching...&quot;,&quot;empty&quot;:&quot;We didn&#39;t find any results for the search: ${query}&quot;,&quot;hits_time&quot;:&quot;${hits} results found in ${time} ms&quot;,&quot;hits&quot;:&quot;${hits} results found&quot;}}</script>
+<meta name="description" content="在实习开发的项目中，用到了外部配置文件，可以在项目打包之后，通过调整包文件内的配置来修改程序，从而避免了反复打包调试的困扰，想以此作为主题，记录一下这个小技巧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity外部配置文件">
+<meta property="og:url" content="http://example.com/2021/08/15/Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在实习开发的项目中，用到了外部配置文件，可以在项目打包之后，通过调整包文件内的配置来修改程序，从而避免了反复打包调试的困扰，想以此作为主题，记录一下这个小技巧。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/08/15/Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/image-20210815193613.png">
+<meta property="article:published_time" content="2021-08-15T11:31:35.000Z">
+<meta property="article:modified_time" content="2021-08-15T11:39:35.633Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="开发技巧">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/08/15/Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/image-20210815193613.png">
+
+
+<link rel="canonical" href="http://example.com/2021/08/15/Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;en&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;08&#x2F;15&#x2F;Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;15&#x2F;Unity外部配置文件&#x2F;&quot;,&quot;title&quot;:&quot;Unity外部配置文件&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Unity外部配置文件 | Hexo</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/15/Unity%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity外部配置文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-08-15 19:31:35 / Modified: 19:39:35" itemprop="dateCreated datePublished" datetime="2021-08-15T19:31:35+08:00">2021-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在实习开发的项目中，用到了外部配置文件，可以在项目打包之后，通过调整包文件内的配置来修改程序，从而避免了反复打包调试的困扰，想以此作为主题，记录一下这个小技巧。</p>
+<span id="more"></span>
+<p>Unity在构建项目时，会将大多数的资源合并为文件，但是Streaming Assets中的除外，该文件夹会保存在打包后的目录中</p>
+<p><img src="image-20210815193613.png" alt="image-20210815193613"></p>
+<p>对应的，只需要在工程目录的Assets目录下，创建一个名为StreamingAssets(不能修改)的文件夹，则其中的资源就不会打包合并。</p>
+<p>其中放置的配置文件，一种是以XML，JSON等进行存储和读取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LoadJson.LoadJsonFromFile&lt;Class_Name&gt;();</span><br></pre></td></tr></table></figure>
+<p>其中类的成员要与json中的字符串一一对应，如下：<br>类定义：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Serializable</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GamesInfoConfig</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏列表&quot;</span>)] <span class="keyword">public</span> List&lt;GameInfo&gt; gameList;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏场景图标地址&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameIconPath;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏选择图标地址&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> selectIconPath;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏场景图片地址&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameBackGroundPath;</span><br><span class="line">&#125;</span><br><span class="line">[<span class="meta">Serializable</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GameInfo</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏名称&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameName;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏中文名&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameChineseName;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏ID&quot;</span>)] <span class="keyword">public</span> <span class="built_in">int</span> gameId;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏场景图标&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameIconName;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏图标放置的位置&quot;</span>)] <span class="keyword">public</span> Vector3 gameIconPosition;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏图标的缩放尺寸&quot;</span>)] <span class="keyword">public</span> <span class="built_in">float</span> gameIconZoomSize;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;游戏场景图片&quot;</span>)] <span class="keyword">public</span> <span class="built_in">string</span> gameBackGround;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;人物投影的位置&quot;</span>)] <span class="keyword">public</span> Vector3 gamePlayerPosition;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;人物投影的缩放尺寸&quot;</span>)] <span class="keyword">public</span> <span class="built_in">float</span> gamePlayerZoomSize;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;人物投影的尺寸&quot;</span>)] <span class="keyword">public</span> Vector3 gameShadowScale;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;人物投影的光照角度cos&quot;</span>)] <span class="keyword">public</span> Vector2 gameShadowLightAngelCos;</span><br><span class="line">    [<span class="meta">SerializeField</span>] [LabelText(<span class="string">&quot;人物是否接受阴影&quot;</span>)] <span class="keyword">public</span> <span class="built_in">bool</span> haveShadow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>json文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">&quot;gameList&quot;</span>:[</span><br><span class="line">&#123;<span class="attr">&quot;gameName&quot;</span>: <span class="string">&quot;111&quot;</span>,</span><br><span class="line"><span class="attr">&quot;gameChineseName&quot;</span>:<span class="string">&quot;111&quot;</span>,</span><br><span class="line"><span class="attr">&quot;gameId&quot;</span>: <span class="number">0</span>,</span><br><span class="line"><span class="attr">&quot;gameIconName&quot;</span>: <span class="string">&quot;111&quot;</span>,</span><br><span class="line"><span class="attr">&quot;gameIconPosition&quot;</span>:&#123;<span class="attr">&quot;x&quot;</span>: <span class="number">-960</span>,<span class="attr">&quot;y&quot;</span>: <span class="number">408</span>,<span class="attr">&quot;z&quot;</span>: <span class="number">0</span>&#125;,</span><br><span class="line"><span class="attr">&quot;gameIconZoomSize&quot;</span>: <span class="number">1</span>,</span><br><span class="line"><span class="attr">&quot;gameBackGround&quot;</span>: <span class="string">&quot;111&quot;</span>,</span><br><span class="line"><span class="attr">&quot;gamePlayerPosition&quot;</span>:&#123;<span class="attr">&quot;x&quot;</span>: <span class="number">0</span>,<span class="attr">&quot;y&quot;</span>: <span class="number">-1</span>,<span class="attr">&quot;z&quot;</span>: <span class="number">-0.1</span>&#125;,</span><br><span class="line"> <span class="attr">&quot;gamePlayerZoomSize&quot;</span>: <span class="number">8</span>,</span><br><span class="line"> <span class="attr">&quot;gameShadowScale&quot;</span>: &#123;<span class="attr">&quot;x&quot;</span>: <span class="number">0.97</span>,<span class="attr">&quot;y&quot;</span>: <span class="number">1</span>,<span class="attr">&quot;z&quot;</span>: <span class="number">1</span>&#125;,</span><br><span class="line"> <span class="attr">&quot;gameShadowLightAngelCos&quot;</span>: &#123;<span class="attr">&quot;x&quot;</span>: <span class="number">1</span>,<span class="attr">&quot;y&quot;</span>: <span class="number">1</span>&#125;,</span><br><span class="line"><span class="attr">&quot;haveShadow&quot;</span>:<span class="literal">false</span>&#125;</span><br><span class="line">],</span><br><span class="line"><span class="attr">&quot;gameIconPath&quot;</span>: <span class="string">&quot;Icon/SceneIcon/&quot;</span>,<span class="attr">&quot;selectIconPath&quot;</span>:<span class="string">&quot;Icon/SelectIcon/&quot;</span>,<span class="attr">&quot;gameBackGroundPath&quot;</span>: <span class="string">&quot;Prefab/GameScene/&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>只要对应没有问题，就可以读取到相应的类，且赋值正确啦<br>另一种方式是采用字符读取的形式，逐个读取配置文件。</p>
+<p>读取配置文件，以local版本为先，若没有local版本，再去读config.txt</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> IEnumerable&lt;<span class="built_in">string</span>&gt; <span class="title">ReadConfigFile</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> file = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_EDITOR</span></span><br><span class="line">        file = Path.Combine(Application.streamingAssetsPath, <span class="string">&quot;config.local.txt&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!File.Exists(file))</span><br><span class="line">        &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">            file = Path.Combine(Application.streamingAssetsPath, <span class="string">&quot;config.txt&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (!File.Exists(file))</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_EDITOR</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        <span class="keyword">return</span> File.ReadLines(file);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>之后将字符串分割开，检索字符串来配置</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">MakeTxtConfig</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> lines = ReadConfigFile();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> lines)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> kv = line.Split(<span class="string">&#x27;=&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (kv.Length &lt; <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> key = kv[<span class="number">0</span>].Trim();</span><br><span class="line">        <span class="keyword">var</span> <span class="keyword">value</span> = kv[<span class="number">1</span>].Trim();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (key.StartsWith(<span class="string">&quot;#&quot;</span>))</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        Debug.Log(<span class="string">$&quot;<span class="subst">&#123;key&#125;</span> = <span class="subst">&#123;<span class="keyword">value</span>&#125;</span>&quot;</span>);</span><br><span class="line">        <span class="keyword">switch</span> (key)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SCREENSHOT_SIZE&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> wh = <span class="keyword">value</span>.Split(<span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">                <span class="keyword">if</span> (wh.Length &lt; <span class="number">2</span>)</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> width = wh[<span class="number">0</span>].Trim();</span><br><span class="line">                <span class="keyword">var</span> height = wh[<span class="number">1</span>].Trim();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(width, <span class="keyword">out</span> <span class="built_in">int</span> _width))</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.width = _width;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(height, <span class="keyword">out</span> <span class="built_in">int</span> _height))</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.height = _height;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SCREENSHOT_CAMERA_NAME_LIST&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> cameraNameList = <span class="keyword">value</span>.Split(<span class="keyword">new</span>[] &#123;<span class="string">&#x27;,&#x27;</span>&#125;, System.StringSplitOptions.RemoveEmptyEntries);</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> name <span class="keyword">in</span> cameraNameList)</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.cameraNameList.Add(name);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SCREENSHOT_OUTPUT_PATH&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                screenShotConfig.outPutPath = <span class="keyword">value</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SCREENSHOT_REC_POINT&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> xy = <span class="keyword">value</span>.Split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">                <span class="keyword">if</span> (xy.Length &lt; <span class="number">2</span>)</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> x = xy[<span class="number">0</span>].Trim();</span><br><span class="line">                <span class="keyword">var</span> y = xy[<span class="number">1</span>].Trim();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(x, <span class="keyword">out</span> <span class="built_in">int</span> _x))</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.point.x = _x;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(y, <span class="keyword">out</span> <span class="built_in">int</span> _y))</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.point.y = _y;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SCREENSHOT_STAY_TIME&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">float</span>.TryParse(<span class="keyword">value</span>, <span class="keyword">out</span> <span class="built_in">float</span> time))</span><br><span class="line">                &#123;</span><br><span class="line">                    screenShotConfig.stayTime = time;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;GAMES_DISPLAY_ORDER&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> idList = <span class="keyword">value</span>.Split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> id <span class="keyword">in</span> idList)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(id, <span class="keyword">out</span> <span class="built_in">int</span> _id))</span><br><span class="line">                    &#123;</span><br><span class="line">                        displayOrderConfig.orderList.Add(_id);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;VIDEO_SIZE&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> wh = <span class="keyword">value</span>.Split(<span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">                <span class="keyword">if</span> (wh.Length &lt; <span class="number">2</span>)</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> width = wh[<span class="number">0</span>].Trim();</span><br><span class="line">                <span class="keyword">var</span> height = wh[<span class="number">1</span>].Trim();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(width, <span class="keyword">out</span> <span class="built_in">int</span> _width))</span><br><span class="line">                &#123;</span><br><span class="line">                    Framework.Instance.videoWidth = _width;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">int</span>.TryParse(height, <span class="keyword">out</span> <span class="built_in">int</span> _height))</span><br><span class="line">                &#123;</span><br><span class="line">                    Framework.Instance.videoHeight = _height;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SERVER_LIST&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                Framework.Instance.serverList = <span class="keyword">value</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;DECODER_TYPE&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                Framework.Instance.decoderType = (VideoDecoderType)<span class="built_in">int</span>.Parse(<span class="keyword">value</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;URL&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                Framework.Instance.URL = <span class="keyword">value</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;ESCAPE_PLAYER&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">bool</span>.TryParse(<span class="keyword">value</span>, <span class="keyword">out</span> <span class="built_in">bool</span> _result))</span><br><span class="line">                &#123;</span><br><span class="line">                    Framework.Instance.escape_player = _result;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;SHADOW_SWITCH&quot;</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">bool</span>.TryParse(<span class="keyword">value</span>, <span class="keyword">out</span> <span class="built_in">bool</span> _result))</span><br><span class="line">                &#123;</span><br><span class="line">                    Framework.Instance.shadow_switch = _result;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Unity/" rel="tag"># Unity</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/" rel="tag"># 开发技巧</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/28/Unity%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%8F%E5%88%97%E5%8C%96/" rel="prev" title="Unity中的数据序列化">
+                  <i class="fa fa-chevron-left"></i> Unity中的数据序列化
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{&quot;enable&quot;:true,&quot;tags&quot;:&quot;none&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mathjax@3.1.2&#x2F;es5&#x2F;tex-mml-chtml.js&quot;}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
